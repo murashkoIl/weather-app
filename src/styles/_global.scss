@@ -1,0 +1,18 @@
+$redColor: red;
+
+html {
+  font-family: generalFont;
+}
+
+h1 {
+  background-color: $redColor;
+}
+
+.content {
+  display: block;
+  height: 40px;
+  background: url('../images/1.jpeg');
+}
+body {
+  height: 100%;
+}
