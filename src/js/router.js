@@ -44,7 +44,16 @@ const homePage = () => {
 			document.getElementById('content').innerHTML = html;
 			window.scrollTo(0, 0);
 		})
-		.catch((err) => alert(err));
+		.catch((err) => {
+			const html = weather.customNotification(err);
+			document.querySelector('#content').innerHTML = html;
+			setTimeout(() => {
+				document.querySelector('.error-wrapper').classList.add('show');
+			}, 700);
+			document
+				.querySelector('.error-close')
+				.addEventListener('click', weather.removeCustomNotification);
+		});
 };
 
 const savedPage = () => {
