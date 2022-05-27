@@ -57,7 +57,8 @@ export const handleWrapperListener = (event) => {
 			})
 			.then(() => {
 				locationHandler();
-			});
+			})
+			.catch((err) => alert(err));
 	}
 	if (event.target.closest('.input-search-icon')) {
 		toFocusInput();

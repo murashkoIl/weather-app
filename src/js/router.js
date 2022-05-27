@@ -72,29 +72,32 @@ const savedPage = () => {
 	inputSearch.oninput = function () {
 		isCitiesRendered();
 		if (this.value.length > 2) {
-			weather.getCities(weather.BASE_URL, this.value).then((data) => {
-				const html = weather.renderFoundCities(data);
-				let div = document.createElement('div');
-				div.className = 'found-cities-wrapper';
-				div.innerHTML = html;
-				document.querySelector('.search-form').append(div);
+			weather
+				.getCities(weather.BASE_URL, this.value)
+				.then((data) => {
+					const html = weather.renderFoundCities(data);
+					let div = document.createElement('div');
+					div.className = 'found-cities-wrapper';
+					div.innerHTML = html;
+					document.querySelector('.search-form').append(div);
 
-				// must be better solution
-				const saved = [],
-					received = [];
-				storage.cards.forEach((card) => {
-					saved.push(card.city);
-				});
-				data.forEach((card) => {
-					received.push(card.name);
-				});
+					// must be better solution
+					const saved = [],
+						received = [];
+					storage.cards.forEach((card) => {
+						saved.push(card.city);
+					});
+					data.forEach((card) => {
+						received.push(card.name);
+					});
 
-				saved.forEach((str) => {
-					if (received.includes(str)) {
-						document.querySelector('.search').style.display = 'none';
-					}
-				});
-			});
+					saved.forEach((str) => {
+						if (received.includes(str)) {
+							document.querySelector('.search').style.display = 'none';
+						}
+					});
+				})
+				.catch((err) => alert(err));
 		}
 	};
 };
@@ -105,12 +108,12 @@ const settingsPage = () => {
 		.then((data) => {
 			const html = weather.renderSettingsPage(data);
 			document.getElementById('content').innerHTML = html;
-			// window.scrollTo(0, 0);
 		})
 		.then(() => {
 			const settings = document.querySelector('.settings-wrapper');
 			settings.addEventListener('click', settingsHandler);
-		});
+		})
+		.catch((err) => alert(err));
 };
 
 const errorPage = () => {
