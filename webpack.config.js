@@ -14,15 +14,15 @@ module.exports = {
 		clean: true,
 		filename: 'bundle.js',
 		path: __dirname + '/dist',
-		assetModuleFilename: 'assets/[hash][ext][query]',
+		// assetModuleFilename: 'assets/[hash][ext][query]',
 	},
-	devtool: 'source-map',
+	// devtool: 'source-map',
 	plugins: [
 		new MiniCssExtractPlugin({
 			filename: '[name].[contenthash].css',
 		}),
 		new HtmlWebpackPlugin({
-			template: './src/index.html',
+			template: './public/index.html',
 		}),
 	],
 	module: {

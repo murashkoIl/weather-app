@@ -1,1 +1,0 @@
-{"version":3,"file":"bundle.js","mappings":"mBAEAA,QAAQC,IAAI,SACZD,QAAQC,IAAI,KAAM,S","sources":["webpack://weather-application/./src/index.js"],"sourcesContent":["import './styles/index.scss';\n\nconsole.log('hello');\nconsole.log('hi', 'hdfv');\n\nconst a = 5;\n"],"names":["console","log"],"sourceRoot":""}

@@ -1,6 +1,4 @@
 import './styles/index.scss';
-
-console.log('hello');
-console.log('hi',     'hdfv');
-
-const a = 5;
+import './js/router';
+import './js/weather';
+import './js/main';
