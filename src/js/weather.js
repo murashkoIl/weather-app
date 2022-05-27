@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://api.weatherapi.com/v1';
+export const BASE_URL = 'https://api.weatherapi.com/v1';
 const API_KEY = 'c1b5dcebecd24bc99f5141741221705';
 
 export const getCurrentWeather = async (url, city = 'auto:ip') => {
