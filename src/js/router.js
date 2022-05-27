@@ -2,8 +2,8 @@ import * as weather from './weather';
 import { handleWrapperListener } from './main';
 import './main';
 
-if (window.localStorage.getItem('storage') === null) {
-	window.localStorage.setItem(
+if (localStorage.getItem('storage') === null) {
+	localStorage.setItem(
 		'storage',
 		JSON.stringify({
 			isDarkTheme: true,
@@ -32,12 +32,6 @@ if (window.localStorage.getItem('storage') === null) {
 					wind_mph: 5,
 				},
 			],
-			routes: {
-				'#home': 'homePage',
-				'#saved': 'savedPage',
-				'#settings': 'settingsPage',
-				404: 'errorPage',
-			},
 		})
 	);
 }
@@ -117,7 +111,8 @@ const settingsPage = () => {
 };
 
 const errorPage = () => {
-	console.log('error');
+	const html = weather.renderErrorPage();
+	document.getElementById('content').innerHTML = html;
 };
 
 export const cityPage = () => {
@@ -145,47 +140,56 @@ export const routes = {
 };
 
 export const locationHandler = () => {
-	routes[location.hash]();
+	const storage = JSON.parse(localStorage.getItem('storage'));
+	!storage.isDarkTheme
+		? document.body.classList.add('light')
+		: document.body.classList.remove('light');
+
+	if (!routes[location.hash]) {
+		routes[404]();
+	} else {
+		routes[location.hash]();
+	}
 };
 
 const settingsHandler = (event) => {
 	const evnt = event.target;
-	const storage = JSON.parse(window.localStorage.getItem('storage'));
+	const storage = JSON.parse(localStorage.getItem('storage'));
 	if (evnt.classList.contains('choice-temperature')) {
 		if (evnt.textContent === 'ºC') {
 			evnt.textContent = 'ºF';
 			storage.isCelcius = false;
-			window.localStorage.setItem('storage', JSON.stringify(storage));
+			localStorage.setItem('storage', JSON.stringify(storage));
 			locationHandler();
 		} else {
 			evnt.textContent = 'ºC';
 			storage.isCelcius = true;
-			window.localStorage.setItem('storage', JSON.stringify(storage));
+			localStorage.setItem('storage', JSON.stringify(storage));
 			locationHandler();
 		}
 	} else if (evnt.classList.contains('choice-wind')) {
 		if (evnt.textContent === 'km/h') {
 			evnt.textContent = 'm/s';
 			storage.isKPH = false;
-			window.localStorage.setItem('storage', JSON.stringify(storage));
+			localStorage.setItem('storage', JSON.stringify(storage));
 			locationHandler();
 		} else {
 			evnt.textContent = 'km/h';
 			storage.isKPH = true;
-			window.localStorage.setItem('storage', JSON.stringify(storage));
+			localStorage.setItem('storage', JSON.stringify(storage));
 			locationHandler();
 		}
 	} else if (evnt.classList.contains('choice-theme')) {
 		if (evnt.textContent === 'Dark') {
 			evnt.textContent = 'Light';
 			storage.isDarkTheme = false;
-			window.localStorage.setItem('storage', JSON.stringify(storage));
-			// locationHandler();
+			localStorage.setItem('storage', JSON.stringify(storage));
+			locationHandler();
 		} else {
 			evnt.textContent = 'Dark';
 			storage.isDarkTheme = true;
-			window.localStorage.setItem('storage', JSON.stringify(storage));
-			// locationHandler();
+			localStorage.setItem('storage', JSON.stringify(storage));
+			locationHandler();
 		}
 	}
 };

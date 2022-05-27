@@ -50,7 +50,7 @@ export const renderHomePage = (data) => {
 		return [...days, ...days][dayIndex];
 	};
 
-	const storage = JSON.parse(window.localStorage.getItem('storage'));
+	const storage = JSON.parse(localStorage.getItem('storage'));
 
 	return `
     <header>
@@ -195,7 +195,7 @@ export const renderHomePage = (data) => {
 };
 
 export const renderSettingsPage = (data) => {
-	const storage = JSON.parse(window.localStorage.getItem('storage'));
+	const storage = JSON.parse(localStorage.getItem('storage'));
 
 	return `
     <header class="header">
@@ -290,6 +290,15 @@ export const renderSavedPage = () => {
           </div>
       </div>
     </section>
+  `;
+};
+
+export const renderErrorPage = () => {
+	return `
+    <div class="error-container">
+      <h1 class="error-404">404</h1>
+      <div class="error-message">Something Went Wrong...</div>
+    </div>
   `;
 };
 

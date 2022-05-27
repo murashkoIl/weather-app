@@ -31,12 +31,12 @@ export const handleWrapperListener = (event) => {
 	}
 	if (event.target.classList.contains('city-delete')) {
 		console.log('delete event', event.target.dataset.id);
-		const storage = JSON.parse(window.localStorage.getItem('storage'));
+		const storage = JSON.parse(localStorage.getItem('storage'));
 		const filtered = storage.cards.filter(
 			(card) => card.city !== event.target.dataset.id
 		);
 		storage.cards = [...filtered];
-		window.localStorage.setItem('storage', JSON.stringify(storage));
+		localStorage.setItem('storage', JSON.stringify(storage));
 		locationHandler();
 	}
 	if (event.target.classList.contains('search')) {
