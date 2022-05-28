@@ -45,14 +45,7 @@ const homePage = () => {
 			window.scrollTo(0, 0);
 		})
 		.catch((err) => {
-			const html = weather.customNotification(err);
-			document.querySelector('#content').innerHTML = html;
-			setTimeout(() => {
-				document.querySelector('.error-wrapper').classList.add('show');
-			}, 700);
-			document
-				.querySelector('.error-close')
-				.addEventListener('click', weather.removeCustomNotification);
+			weather.renderCustomNotification(err);
 		});
 };
 
@@ -79,12 +72,11 @@ const savedPage = () => {
 				.getCities(weather.BASE_URL, this.value)
 				.then((data) => {
 					const html = weather.renderFoundCities(data);
-					let div = document.createElement('div');
+					const div = document.createElement('div');
 					div.className = 'found-cities-wrapper';
 					div.innerHTML = html;
 					document.querySelector('.search-form').append(div);
 
-					// must be better solution
 					const saved = [],
 						received = [];
 					storage.cards.forEach((card) => {
@@ -94,9 +86,15 @@ const savedPage = () => {
 						received.push(card.name);
 					});
 
-					saved.forEach((str) => {
-						if (received.includes(str)) {
-							document.querySelector('.search').style.display = 'none';
+					return { saved, received };
+
+					// must be better solution
+				})
+				.then((arrays) => {
+					arrays.saved.forEach((str) => {
+						if (arrays.received.includes(str)) {
+							// document.querySelector('.search').style.display = 'none';
+							document.querySelector('.search').remove();
 						}
 					});
 				})
