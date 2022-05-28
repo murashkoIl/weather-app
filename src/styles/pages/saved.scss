@@ -1,0 +1,170 @@
+$pinkColor: #ed2bdac2;
+
+input {
+  color: aliceblue;
+
+  &:focus {
+    font-size: 1rem;
+  }
+}
+
+.input {
+  &-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &-search {
+    width: 100%;
+    margin: 0 1rem;
+    background-color: transparent;
+    border: none;
+    height: 1.5rem;
+
+    &-icon {
+      line-height: 2.5rem;
+
+      &:hover .fa-magnifying-glass {
+        color: $pinkColor;
+      }
+    }
+  }
+
+  
+}
+
+.search-form {
+  position: relative;
+}
+
+a {
+  background-color: #3f3f4e;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  text-decoration: none;
+
+  &:hover .fa-house:hover, .fa-heart:hover, .fa-bars:hover, .fa-pencil:hover, .fa-magnifying-glass:hover {
+    color: $pinkColor;
+  }
+
+  &:hover {
+    color: $pinkColor;
+  }
+}
+
+.saved-cities {
+  padding-bottom: 3rem;
+
+  &-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  & .container {
+    overflow: auto;
+  }
+}
+
+.city {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: right;
+  flex-direction: column;
+  width: calc(50% - 1rem);
+  border-radius: 30px;
+  background-color: #0a071255;
+  margin-bottom: 1rem;
+  cursor: pointer;
+
+  &-name {
+    padding-left: 0.7rem;
+  }
+
+  &-deg {
+    font-size: 1.5rem;
+    padding-top: 1rem;
+
+    &-icon {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.7rem;
+    }
+  }
+
+  &-delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1rem;
+    height: 1rem;
+    text-align: center;
+    border-radius: 40%;
+    border: 1px solid;
+    padding-bottom: 0.1rem;
+  }
+
+  &-weather {
+    &-info {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 0 1rem 0rem;
+      font-size: 0.7rem;
+    }
+
+    &-humidity {
+      &-wrapper {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      &-icon {
+        margin-right: 0.5rem;
+      }
+    }
+
+    &-wind {
+      &-wrapper {
+        display: flex;
+      }
+
+      &-icon {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  &-found {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 2rem;
+    margin: 0 0.7rem;
+
+    &-icon {
+      cursor: pointer;
+    }
+  }
+
+}
+
+.country-name {
+  padding-left: 0.7rem;
+  font-size: 0.8rem;
+  margin: 0.5rem 0;
+  color: grey;
+
+}
+
+.found-cities-wrapper {
+  position: absolute;
+  width: 100%;
+  background-color: rgb(132, 128, 196);
+  border-radius: 15px;
+  z-index: 5;
+}

@@ -1,9 +1,12 @@
+$whiteColor: #fff;
+$blackColor: #000;
+
 body.light {
-  background-color: #fff;
-  color: #000;
+  background-color: $whiteColor;
+  color: $blackColor;
 
   .header-status {
-    color: #fff;
+    color: $whiteColor;
   }
 
   .week-item__nighttemp {
@@ -11,27 +14,26 @@ body.light {
   }
 
   input {
-    color: #000;
-  }
-
-  .city-status {
-    color: #fff;
+    color: $blackColor;
   }
 
   .city {
     background-color: lightblue;
+
+    &-status {
+      color: $whiteColor;
+    }
   }
 
   .footer {
-    background-color: #fff;
-  }
+    background-color: $whiteColor;
 
-  .footer-item {
-    background-color: #fff;
+    &-item {
+      background-color: $whiteColor;
+    }
   }
 
   a {
-    background-color: #fff;
+    background-color: $whiteColor;
   }
 }
-

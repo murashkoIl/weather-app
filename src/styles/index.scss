@@ -1,3 +1,7 @@
 @use 'styles';
+@use './pages/footer';
+@use './pages/home';
+@use './pages/saved';
+@use './pages/settings';
 @use 'theme';
 @use 'error';
