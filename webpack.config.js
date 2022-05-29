@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 let mode = 'development';
 if (process.env.NODE_ENV === 'production') {
@@ -34,7 +35,8 @@ module.exports = {
 			{
 				test: /\.(sa|sc|c)ss$/,
 				use: [
-					mode === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
+					// mode === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
+					'style-loader',
 					'css-loader',
 					{
 						loader: 'postcss-loader',
@@ -72,6 +74,13 @@ module.exports = {
 					},
 				},
 			},
+		],
+	},
+	optimization: {
+		minimizer: [
+			new TerserPlugin({
+				extractComments: false,
+			}),
 		],
 	},
 };

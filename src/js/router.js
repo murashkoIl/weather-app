@@ -94,11 +94,12 @@ const savedPage = () => {
 					arrays.saved.forEach((str) => {
 						if (arrays.received.includes(str)) {
 							// document.querySelector('.search').style.display = 'none';
+							// console.log(document.querySelector('.search').dataset.name);
 							document.querySelector('.search').remove();
 						}
 					});
 				})
-				.catch((err) => alert(err));
+				.catch((err) => weather.renderCustomNotification(err));
 		}
 	};
 };
@@ -114,7 +115,7 @@ const settingsPage = () => {
 			const settings = document.querySelector('.settings-wrapper');
 			settings.addEventListener('click', settingsHandler);
 		})
-		.catch((err) => alert(err));
+		.catch((err) => weather.renderCustomNotification(err));
 };
 
 const errorPage = () => {
@@ -136,7 +137,7 @@ export const cityPage = () => {
 			});
 			window.scrollTo(0, 0);
 		})
-		.catch((err) => alert(err));
+		.catch((err) => weather.renderCustomNotification(err));
 };
 
 export const routes = {
