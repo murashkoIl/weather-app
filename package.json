@@ -8,7 +8,8 @@
     "dev": "NODE_ENV=development webpack",
     "build": "NODE_ENV=production webpack",
     "lint": "eslint '**/*.js'",
-    "lint:fix": "prettier-eslint '**/*.js' --write"
+    "lint:fix": "prettier-eslint '**/*.js' --write",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +26,7 @@
     "html-loader": "^3.1.0",
     "html-webpack-plugin": "^5.5.0",
     "husky": "^8.0.1",
+    "jest": "^28.1.0",
     "lint-staged": "^12.4.1",
     "mini-css-extract-plugin": "^2.6.0",
     "postcss": "^8.4.14",

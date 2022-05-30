@@ -1,51 +1,19 @@
-import * as weather from './weather';
+import { renderHomePage } from './home/home';
+import { renderSettingsPage } from './settings/settings';
+import { getCurrentWeather, BASE_URL, getCities } from './weather';
+import { renderFoundCities, renderSavedPage } from './saved/saved';
+import { renderErrorPage, renderCustomNotification } from './error/error';
 import { handleWrapperListener } from './main';
-import './main';
-
-if (localStorage.getItem('storage') === null) {
-	localStorage.setItem(
-		'storage',
-		JSON.stringify({
-			isDarkTheme: true,
-			isCelcius: true,
-			isKPH: true,
-			editMode: false,
-			cards: [
-				{
-					city: 'Austin',
-					country: 'USA',
-					temp_c: 23,
-					temp_f: 40,
-					icon: 'http://cdn.weatherapi.com/weather/64x64/night/122.png',
-					humidity: 20,
-					wind_kph: 10,
-					wind_mph: 5,
-				},
-				{
-					city: 'Brest',
-					country: 'Belarus',
-					temp_c: 20,
-					temp_f: 38,
-					icon: 'http://cdn.weatherapi.com/weather/64x64/night/122.png',
-					humidity: 20,
-					wind_kph: 10,
-					wind_mph: 5,
-				},
-			],
-		})
-	);
-}
 
 const homePage = () => {
-	weather
-		.getCurrentWeather(weather.BASE_URL)
+	getCurrentWeather(BASE_URL)
 		.then((data) => {
-			const html = weather.renderHomePage(data);
+			const html = renderHomePage(data);
 			document.getElementById('content').innerHTML = html;
 			window.scrollTo(0, 0);
 		})
 		.catch((err) => {
-			weather.renderCustomNotification(err);
+			renderCustomNotification(err);
 		});
 };
 
@@ -57,7 +25,7 @@ const savedPage = () => {
 	}
 
 	const wrapper = document.querySelector('.wrapper');
-	const html = weather.renderSavedPage();
+	const html = renderSavedPage();
 	const storage = JSON.parse(localStorage.getItem('storage'));
 	document.getElementById('content').innerHTML = html;
 	window.scrollTo(0, 0);
@@ -68,10 +36,10 @@ const savedPage = () => {
 	inputSearch.oninput = function () {
 		isCitiesRendered();
 		if (this.value.length > 2) {
-			weather
-				.getCities(weather.BASE_URL, this.value)
+			getCities(BASE_URL, this.value)
 				.then((data) => {
-					const html = weather.renderFoundCities(data);
+					console.log(data);
+					const html = renderFoundCities(data);
 					const div = document.createElement('div');
 					div.className = 'found-cities-wrapper';
 					div.innerHTML = html;
@@ -99,35 +67,33 @@ const savedPage = () => {
 						}
 					});
 				})
-				.catch((err) => weather.renderCustomNotification(err));
+				.catch((err) => renderCustomNotification(err));
 		}
 	};
 };
 
 const settingsPage = () => {
-	weather
-		.getCurrentWeather(weather.BASE_URL)
+	getCurrentWeather(BASE_URL)
 		.then((data) => {
-			const html = weather.renderSettingsPage(data);
+			const html = renderSettingsPage(data);
 			document.getElementById('content').innerHTML = html;
 		})
 		.then(() => {
 			const settings = document.querySelector('.settings-wrapper');
 			settings.addEventListener('click', settingsHandler);
 		})
-		.catch((err) => weather.renderCustomNotification(err));
+		.catch((err) => renderCustomNotification(err));
 };
 
 const errorPage = () => {
-	const html = weather.renderErrorPage();
+	const html = renderErrorPage();
 	document.getElementById('content').innerHTML = html;
 };
 
 export const cityPage = () => {
-	weather
-		.getCurrentWeather(weather.BASE_URL, location.hash.split('/')[1])
+	getCurrentWeather(BASE_URL, location.hash.split('/')[1])
 		.then((data) => {
-			const html = weather.renderHomePage(data);
+			const html = renderHomePage(data);
 			document.getElementById('content').innerHTML = html;
 			const goBack = document.querySelector('.header-return');
 			goBack.style.display = 'block';
@@ -137,7 +103,7 @@ export const cityPage = () => {
 			});
 			window.scrollTo(0, 0);
 		})
-		.catch((err) => weather.renderCustomNotification(err));
+		.catch((err) => renderCustomNotification(err));
 };
 
 export const routes = {

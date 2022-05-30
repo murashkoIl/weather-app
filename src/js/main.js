@@ -1,5 +1,20 @@
 import { locationHandler, isCitiesRendered, routes, cityPage } from './router';
-import * as weather from './weather';
+import { saveCity, deleteCity, toFocusInput } from './saved/saved';
+import { renderCustomNotification } from './error/error';
+import { BASE_URL, getCurrentWeather } from './weather';
+
+if (localStorage.getItem('storage') === null) {
+	localStorage.setItem(
+		'storage',
+		JSON.stringify({
+			isDarkTheme: true,
+			isCelcius: true,
+			isKPH: true,
+			editMode: false,
+			cards: [],
+		})
+	);
+}
 
 const link = document.querySelector('.footer-container');
 
@@ -32,18 +47,11 @@ export const handleWrapperListener = (event) => {
 		isCitiesRendered();
 	}
 	if (event.target.classList.contains('city-delete')) {
-		console.log('delete event', event.target.dataset.id);
-		const storage = JSON.parse(localStorage.getItem('storage'));
-		const filtered = storage.cards.filter(
-			(card) => card.city !== event.target.dataset.id
-		);
-		storage.cards = [...filtered];
-		localStorage.setItem('storage', JSON.stringify(storage));
+		deleteCity(event.target.dataset.id);
 		locationHandler();
 	}
 	if (event.target.classList.contains('search')) {
-		weather
-			.getCurrentWeather(weather.BASE_URL, event.target.dataset.name)
+		getCurrentWeather(BASE_URL, event.target.dataset.name)
 			.then((data) => {
 				const card = {
 					city: data.location.name,
@@ -55,18 +63,14 @@ export const handleWrapperListener = (event) => {
 					wind_kph: data.current.wind_kph,
 					wind_mph: data.current.wind_mph,
 				};
-				weather.saveCity(card);
+				saveCity(card);
 			})
 			.then(() => {
 				locationHandler();
 			})
-			.catch((err) => alert(err));
+			.catch((err) => renderCustomNotification(err));
 	}
 	if (event.target.closest('.input-search-icon')) {
 		toFocusInput();
 	}
-};
-
-const toFocusInput = () => {
-	document.querySelector('.input-search').focus();
 };
