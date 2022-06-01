@@ -1,12 +1,29 @@
-// import * as weather from '../src/js/weather';
-// import { deleteCity } from '../src/js/main';
+// import { fireEvent, getByText } from '@testing-library/dom';
+// import '@testing-library/jest-dom/extend-expect';
+// import { JSDOM } from 'jsdom';
+// import fs from 'fs';
+// import path from 'path';
 
-it('must be true', () => {
-	expect(1).toBe(1);
-});
+import { renderSettingsPage } from '../src/js/settings/settings';
+// const renderSettingsPage = require('./../src/js//settings/settings');
 
-it('must be false', () => {
-	expect(1).toBe(2);
+describe('index.html', () => {
+	beforeEach(() => {
+		// dom = new JSDOM(html, { runScripts: 'dangerously' });
+		// container = dom.window.document.body;
+	});
+
+	it('must be true', () => {
+		expect(1).toBe(1);
+	});
+
+	it('must be false', () => {
+		expect(3).toBe(3);
+	});
+
+	it('Settings page was rendered', () => {
+		expect(renderSettingsPage.length).not.toBeNull();
+	});
 });
 
 // test('First test', () => {

@@ -13,10 +13,7 @@ html {
 }
 
 body{
-    background-color: #030317c2;
-
     &.light {
-        background-color: #fff;
         color: #000;
     }
 }
@@ -31,6 +28,10 @@ body{
     width: 20rem;
     margin: 0px auto;
     padding: 1rem;
-    
+}
+
+#content {
+    height: calc(100vh + 2rem);
+    background-color: #030317c2;
 }
 

@@ -1,9 +1,13 @@
 $whiteColor: #fff;
 $blackColor: #000;
 
-body.light {
+.wrapper.light {
   background-color: $whiteColor;
   color: $blackColor;
+
+  #content {
+    background-color: $whiteColor;
+  }
 
   .header-status {
     color: $whiteColor;

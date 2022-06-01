@@ -1,3 +1,6 @@
+import { getCurrentWeather, BASE_URL } from '../weather';
+import { renderCustomNotification } from '../error/error';
+
 export const renderHomePage = (data) => {
 	const dayIndex = new Date(data.forecast.forecastday[0].date).getDay();
 	const getDayName = (dayIndex) => {
@@ -155,4 +158,16 @@ export const renderHomePage = (data) => {
   </section>
 
   `;
+};
+
+export const constructHomePage = () => {
+	getCurrentWeather(BASE_URL)
+		.then((data) => {
+			const html = renderHomePage(data);
+			document.getElementById('content').innerHTML = html;
+			window.scrollTo(0, 0);
+		})
+		.catch((err) => {
+			renderCustomNotification(err);
+		});
 };

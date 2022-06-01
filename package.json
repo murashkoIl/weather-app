@@ -19,6 +19,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.0",
     "@babel/preset-env": "^7.18.0",
+    "babel-jest": "^28.1.0",
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
     "eslint": "^8.16.0",
@@ -51,5 +52,12 @@
       "npm run lint:fix",
       "git add"
     ]
+  },
+  "jest": {
+    "collectCoverage": true,
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest",
+      ".+\\.(svg|css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub"
+    }
   }
 }

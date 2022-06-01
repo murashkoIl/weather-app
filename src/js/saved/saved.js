@@ -1,5 +1,6 @@
-import { getCurrentWeather, BASE_URL } from './../weather';
+import { getCurrentWeather, BASE_URL, getCities } from './../weather';
 import { renderCustomNotification } from '../error/error';
+import { renderHomePage } from './../home/home';
 
 export const renderSavedPage = () => {
 	return `
@@ -94,9 +95,9 @@ export const renderFoundCities = (data) => {
     ${data
 			.map((city) => {
 				return `
-        <div class="found-cities-item city-found">
+        <div data-name="${city.name}" class="found-cities-item city-found">
           <div class="city-found-name">${city.name}</div>
-          <div class="city-found-icon"><i data-name="${city.name}" class="fa-solid fa-heart search"></i></div>
+          <div class="city-found-icon"><i class="fa-solid fa-heart search"></i></div>
         </div>
       `;
 			})
@@ -120,4 +121,136 @@ export const deleteCity = (city) => {
 
 export const toFocusInput = () => {
 	document.querySelector('.input-search').focus();
+};
+
+export const constructSavedPage = () => {
+	// for (let key in routes) {
+	// 	if (key.includes('#saved/')) {
+	// 		delete routes[key];
+	// 	}
+	// }
+
+	const wrapper = document.querySelector('.wrapper');
+	const html = renderSavedPage();
+	const storage = JSON.parse(localStorage.getItem('storage'));
+	document.getElementById('content').innerHTML = html;
+	window.scrollTo(0, 0);
+
+	wrapper.addEventListener('click', handleWrapperListener);
+	const inputSearch = document.querySelector('.input-search');
+
+	inputSearch.oninput = function () {
+		isCitiesRendered();
+		if (this.value.length > 2) {
+			getCities(BASE_URL, this.value)
+				.then((data) => {
+					console.log(data);
+					const html = renderFoundCities(data);
+					const div = document.createElement('div');
+					div.className = 'found-cities-wrapper';
+					div.innerHTML = html;
+					document.querySelector('.search-form').append(div);
+
+					const saved = [],
+						received = [];
+					storage.cards.forEach((card) => {
+						saved.push(card.city);
+					});
+					data.forEach((card) => {
+						received.push(card.name);
+					});
+
+					return { saved, received };
+
+					// must be better solution
+				})
+				.then((arrays) => {
+					arrays.saved.forEach((str) => {
+						if (
+							arrays.received.includes(str) &&
+							document.querySelector('.city-found').dataset.name === str
+						) {
+							// console.log(document.querySelector('.city-found').setAttribute('disabled', ''));
+							// document.querySelector('.search').style.display = 'none';
+							document.querySelector('.city-found').style.backgroundColor =
+								'red';
+							// console.log(document.querySelector('.search').dataset.name);
+							// document.querySelector('.search').remove();
+						}
+					});
+				})
+				.catch((err) => renderCustomNotification(err));
+		}
+	};
+};
+
+export const isCitiesRendered = () => {
+	const citiesWrapper = document.querySelector('.found-cities-wrapper');
+	if (citiesWrapper) {
+		citiesWrapper.remove();
+	}
+};
+
+export const handleWrapperListener = (event) => {
+	if (
+		event.target.closest('.city') &&
+		!event.target.classList.contains('city-delete')
+	) {
+		let newLocation =
+			document.location.hash + `/${event.target.closest('.city').dataset.id}`;
+
+		document.location.assign(newLocation);
+		cityPage();
+
+		// locationChangeHandler(routes);
+	}
+	if (!event.target.classList.contains('found-cities-wrapper')) {
+		isCitiesRendered();
+	}
+	if (event.target.classList.contains('city-delete')) {
+		deleteCity(event.target.dataset.id);
+		constructSavedPage();
+	}
+	if (event.target.closest('.city-found')) {
+		getCurrentWeather(
+			BASE_URL,
+			event.target.closest('.city-found').dataset.name
+		)
+			.then((data) => {
+				const card = {
+					city: data.location.name,
+					country: data.location.country,
+					temp_c: data.current.temp_c,
+					temp_f: data.current.temp_f,
+					icon: data.current.condition.icon,
+					humidity: data.current.humidity,
+					wind_kph: data.current.wind_kph,
+					wind_mph: data.current.wind_mph,
+				};
+				saveCity(card);
+			})
+			.then(() => {
+				constructSavedPage();
+			})
+			.catch((err) => renderCustomNotification(err));
+	}
+	if (event.target.closest('.input-search-icon')) {
+		toFocusInput();
+	}
+};
+
+export const cityPage = () => {
+	getCurrentWeather(BASE_URL, location.hash.split('/')[1])
+		.then((data) => {
+			const html = renderHomePage(data);
+			document.getElementById('content').innerHTML = html;
+			const goBack = document.querySelector('.header-return');
+			goBack.style.display = 'block';
+			goBack.addEventListener('click', () => {
+				window.location.hash = '#saved';
+				constructSavedPage();
+			});
+			window.scrollTo(0, 0);
+		})
+		.catch((err) => renderCustomNotification(err));
 };

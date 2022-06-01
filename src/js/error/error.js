@@ -35,3 +35,8 @@ export const customNotification = (err) => {
 export const removeCustomNotification = (event) => {
 	event.target.closest('.error-wrapper').remove();
 };
+
+export const constructErrorPage = () => {
+	const html = renderErrorPage();
+	document.getElementById('content').innerHTML = html;
+};

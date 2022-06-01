@@ -1,3 +1,7 @@
+import { getCurrentWeather, BASE_URL } from '../weather';
+import { renderCustomNotification } from '../error/error';
+import { settingsObserver, themeObserver } from './../observer';
+
 export const renderSettingsPage = (data) => {
 	const storage = JSON.parse(window.localStorage.getItem('storage'));
 
@@ -72,4 +76,55 @@ export const renderSettingsPage = (data) => {
     </div>
   </section>
   `;
+};
+
+export const constructSettingsPage = () => {
+	getCurrentWeather(BASE_URL)
+		.then((data) => {
+			const html = renderSettingsPage(data);
+			document.getElementById('content').innerHTML = html;
+		})
+		.then(() => {
+			const settings = document.querySelector('.settings-wrapper');
+			settings.addEventListener('click', settingsHandler);
+		})
+		.catch((err) => renderCustomNotification(err));
+};
+
+const settingsHandler = (event) => {
+	const evnt = event.target;
+	const storage = JSON.parse(localStorage.getItem('storage'));
+	if (evnt.classList.contains('choice-temperature')) {
+		if (evnt.textContent === 'ºC') {
+			evnt.textContent = 'ºF';
+			storage.isCelcius = false;
+			localStorage.setItem('storage', JSON.stringify(storage));
+		} else {
+			evnt.textContent = 'ºC';
+			storage.isCelcius = true;
+			localStorage.setItem('storage', JSON.stringify(storage));
+		}
+	} else if (evnt.classList.contains('choice-wind')) {
+		if (evnt.textContent === 'km/h') {
+			evnt.textContent = 'm/s';
+			storage.isKPH = false;
+			localStorage.setItem('storage', JSON.stringify(storage));
+		} else {
+			evnt.textContent = 'km/h';
+			storage.isKPH = true;
+			localStorage.setItem('storage', JSON.stringify(storage));
+		}
+	} else if (evnt.classList.contains('choice-theme')) {
+		if (evnt.textContent === 'Dark') {
+			evnt.textContent = 'Light';
+			storage.isDarkTheme = false;
+			localStorage.setItem('storage', JSON.stringify(storage));
+		} else {
+			evnt.textContent = 'Dark';
+			storage.isDarkTheme = true;
+			localStorage.setItem('storage', JSON.stringify(storage));
+		}
+	}
+	settingsObserver.trigger();
+	themeObserver.trigger();
 };
