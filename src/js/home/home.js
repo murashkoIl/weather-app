@@ -161,13 +161,26 @@ export const renderHomePage = (data) => {
 };
 
 export const constructHomePage = () => {
-	getCurrentWeather(BASE_URL)
-		.then((data) => {
-			const html = renderHomePage(data);
-			document.getElementById('content').innerHTML = html;
-			window.scrollTo(0, 0);
-		})
-		.catch((err) => {
-			renderCustomNotification(err);
-		});
+	const hash = window.location.hash.split('/')[1];
+	if (!hash) {
+		getCurrentWeather(BASE_URL)
+			.then((data) => {
+				const html = renderHomePage(data);
+				document.getElementById('content').innerHTML = html;
+				window.scrollTo(0, 0);
+			})
+			.catch((err) => {
+				renderCustomNotification(err);
+			});
+	} else {
+		getCurrentWeather(BASE_URL, hash)
+			.then((data) => {
+				const html = renderHomePage(data);
+				document.getElementById('content').innerHTML = html;
+				window.scrollTo(0, 0);
+			})
+			.catch((err) => {
+				renderCustomNotification(err);
+			});
+	}
 };

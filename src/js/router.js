@@ -194,24 +194,30 @@ export const startRouterWatch = (routes) => {
 
 	window.addEventListener('hashchange', (e) => {
 		e.preventDefault();
+		// const storage = JSON.parse(localStorage.getItem('storage'));
+		// for (let i = 0; i < storage.cards.length; i++) {
+		// 	const card = storage.cards[i];
+		// 	if (
+		// 		location.hash
+		// 			.replaceAll('%20', '')
+		// 			.includes(card.city.replaceAll(' ', ''))
+		// 	) {
+		// 		return;
+		// 	}
+		// }
 
-		const storage = JSON.parse(localStorage.getItem('storage'));
-		for (let i = 0; i < storage.cards.length; i++) {
-			const card = storage.cards[i];
-			if (
-				location.hash
-					.replaceAll('%20', '')
-					.includes(card.city.replaceAll(' ', ''))
-			) {
-				return;
-			}
-		}
 		locationChangeHandler(routes);
 	});
 };
 
 export const locationChangeHandler = (routes) => {
 	const hash = window.location.hash;
+	const regex = /#city\/[a-zA-Z]{2,}/g;
+
+	if (regex.exec(hash)) {
+		routes['#home']();
+		return;
+	}
 
 	if (!routes[hash]) {
 		routes[404]();

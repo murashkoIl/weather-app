@@ -124,12 +124,6 @@ export const toFocusInput = () => {
 };
 
 export const constructSavedPage = () => {
-	// for (let key in routes) {
-	// 	if (key.includes('#saved/')) {
-	// 		delete routes[key];
-	// 	}
-	// }
-
 	const wrapper = document.querySelector('.wrapper');
 	const html = renderSavedPage();
 	const storage = JSON.parse(localStorage.getItem('storage'));
@@ -190,8 +184,7 @@ export const handleWrapperListener = (event) => {
 		event.target.closest('.city') &&
 		!event.target.classList.contains('city-delete')
 	) {
-		let newLocation =
-			document.location.hash + `/${event.target.closest('.city').dataset.id}`;
+		let newLocation = '#city' + `/${event.target.closest('.city').dataset.id}`;
 
 		document.location.assign(newLocation);
 		cityPage();
