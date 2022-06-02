@@ -177,6 +177,11 @@ export const constructHomePage = () => {
 			.then((data) => {
 				const html = renderHomePage(data);
 				document.getElementById('content').innerHTML = html;
+				const goBack = document.querySelector('.header-return');
+				goBack.style.display = 'block';
+				goBack.addEventListener('click', () => {
+					window.location.hash = '#saved';
+				});
 				window.scrollTo(0, 0);
 			})
 			.catch((err) => {

@@ -154,8 +154,6 @@ export const constructSavedPage = () => {
 					});
 
 					return { saved, received };
-
-					// must be better solution
 				})
 				.then((arrays) => {
 					arrays.saved.forEach((str) => {
@@ -185,11 +183,7 @@ export const handleWrapperListener = (event) => {
 		!event.target.classList.contains('city-delete')
 	) {
 		let newLocation = '#city' + `/${event.target.closest('.city').dataset.id}`;
-
 		document.location.assign(newLocation);
-		cityPage();
-
-		// locationChangeHandler(routes);
 	}
 	if (!event.target.classList.contains('found-cities-wrapper')) {
 		isCitiesRendered();
@@ -236,20 +230,4 @@ export const handleWrapperListener = (event) => {
 	if (event.target.closest('.input-search-icon')) {
 		toFocusInput();
 	}
-};
-
-export const cityPage = () => {
-	getCurrentWeather(BASE_URL, location.hash.split('/')[1])
-		.then((data) => {
-			const html = renderHomePage(data);
-			document.getElementById('content').innerHTML = html;
-			const goBack = document.querySelector('.header-return');
-			goBack.style.display = 'block';
-			goBack.addEventListener('click', () => {
-				window.location.hash = '#saved';
-				constructSavedPage();
-			});
-			window.scrollTo(0, 0);
-		})
-		.catch((err) => renderCustomNotification(err));
 };
