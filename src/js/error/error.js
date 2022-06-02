@@ -9,7 +9,9 @@ export const renderErrorPage = () => {
 
 export const renderCustomNotification = (err) => {
 	const html = customNotification(err);
-	document.querySelector('#content').innerHTML = html;
+	const div = document.createElement('div');
+	div.innerHTML = html;
+	document.querySelector('#content').appendChild(div);
 	setTimeout(() => {
 		document.querySelector('.error-wrapper').classList.add('show');
 	}, 700);
