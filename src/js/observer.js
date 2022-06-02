@@ -24,7 +24,6 @@ export const settingsObserver = new Observer();
 export const themeObserver = new Observer();
 
 const themeHandler = () => {
-	console.log('themeHandler');
 	const storage = JSON.parse(localStorage.getItem('storage'));
 	!storage.isDarkTheme
 		? document.querySelector('.wrapper').classList.add('light')

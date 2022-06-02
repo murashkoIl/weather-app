@@ -144,7 +144,6 @@ export const constructSavedPage = () => {
 		if (this.value.length > 2) {
 			getCities(BASE_URL, this.value)
 				.then((data) => {
-					console.log(data);
 					const html = renderFoundCities(data);
 					const div = document.createElement('div');
 					div.className = 'found-cities-wrapper';
@@ -171,9 +170,9 @@ export const constructSavedPage = () => {
 							document.querySelector('.city-found').dataset.name === str
 						) {
 							// console.log(document.querySelector('.city-found').setAttribute('disabled', ''));
-							// document.querySelector('.search').style.display = 'none';
-							document.querySelector('.city-found').style.backgroundColor =
-								'red';
+							document.querySelector('.search').style.color = '#ed2bdac2';
+							// document.querySelector('.city-found').style.backgroundColor =
+							// 	'red';
 							// console.log(document.querySelector('.search').dataset.name);
 							// document.querySelector('.search').remove();
 						}
@@ -212,6 +211,18 @@ export const handleWrapperListener = (event) => {
 		constructSavedPage();
 	}
 	if (event.target.closest('.city-found')) {
+    const targetCityName = event.target.closest('.city-found').dataset.name;
+    let isCitiesEquals = false;
+    
+    JSON.parse(localStorage.getItem('storage')).cards.forEach((card) => {
+      if (card.city.includes(targetCityName)) {
+        alert('This city already in the list!');
+        isCitiesEquals = true;
+      }
+    });
+    
+    if (isCitiesEquals) return;
+
 		getCurrentWeather(
 			BASE_URL,
 			event.target.closest('.city-found').dataset.name
