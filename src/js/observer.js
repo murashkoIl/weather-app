@@ -8,13 +8,13 @@ class Observer {
 	}
 
 	unsubscribe(fnToRemove) {
-		this.observers = this.observers.filter((fn) => {
+		this.observers = this.observers.filter(fn => {
 			return fn !== fnToRemove;
 		});
 	}
 
 	trigger() {
-		this.observers.forEach((fn) => {
+		this.observers.forEach(fn => {
 			fn.call();
 		});
 	}

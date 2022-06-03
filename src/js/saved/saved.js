@@ -1,6 +1,5 @@
 import { getCurrentWeather, BASE_URL, getCities } from './../weather';
 import { renderCustomNotification } from '../error/error';
-import { renderHomePage } from './../home/home';
 
 export const renderSavedPage = () => {
 	return `
@@ -16,7 +15,7 @@ export const renderSavedPage = () => {
       </div>
     </header>
     <section class="saved-cities">
-      <div class="container">
+      <div class="container">s
           <div class="saved-cities-wrapper">
             ${renderSavedCities()}
           </div>
@@ -29,7 +28,7 @@ export const renderSavedCities = () => {
 	const storage = updateCurrentWeather();
 	return `
     ${storage.cards
-			.map((card) => {
+			.map(card => {
 				return `
                 <div data-id="${card.city}" class="saved-cities-item city">
                   <div data-id="${card.city}" class="city-delete">x</div>
@@ -70,7 +69,7 @@ export const updateCurrentWeather = () => {
 	const storage = JSON.parse(window.localStorage.getItem('storage'));
 	storage.cards.forEach((card, index) => {
 		getCurrentWeather(BASE_URL, card.city)
-			.then((info) => {
+			.then(info => {
 				const updatedCard = {
 					city: info.location.name,
 					country: info.location.country,
@@ -84,16 +83,16 @@ export const updateCurrentWeather = () => {
 				storage.cards[index] = updatedCard;
 				window.localStorage.setItem('storage', JSON.stringify(storage));
 			})
-			.catch((err) => renderCustomNotification(err));
+			.catch(err => renderCustomNotification(err));
 	});
 	return storage;
 };
 
-export const renderFoundCities = (data) => {
+export const renderFoundCities = data => {
 	return `
   <div class="found-cities">
     ${data
-			.map((city) => {
+			.map(city => {
 				return `
         <div data-name="${city.name}" class="found-cities-item city-found">
           <div class="city-found-name">${city.name}</div>
@@ -106,15 +105,15 @@ export const renderFoundCities = (data) => {
   `;
 };
 
-export const saveCity = (card) => {
+export const saveCity = card => {
 	const storage = JSON.parse(window.localStorage.getItem('storage'));
 	storage.cards.push(card);
 	window.localStorage.setItem('storage', JSON.stringify(storage));
 };
 
-export const deleteCity = (city) => {
+export const deleteCity = city => {
 	const storage = JSON.parse(localStorage.getItem('storage'));
-	const filtered = storage.cards.filter((card) => card.city !== city);
+	const filtered = storage.cards.filter(card => card.city !== city);
 	storage.cards = [...filtered];
 	localStorage.setItem('storage', JSON.stringify(storage));
 };
@@ -137,7 +136,7 @@ export const constructSavedPage = () => {
 		isCitiesRendered();
 		if (this.value.length > 2) {
 			getCities(BASE_URL, this.value)
-				.then((data) => {
+				.then(data => {
 					const html = renderFoundCities(data);
 					const div = document.createElement('div');
 					div.className = 'found-cities-wrapper';
@@ -146,17 +145,17 @@ export const constructSavedPage = () => {
 
 					const saved = [],
 						received = [];
-					storage.cards.forEach((card) => {
+					storage.cards.forEach(card => {
 						saved.push(card.city);
 					});
-					data.forEach((card) => {
+					data.forEach(card => {
 						received.push(card.name);
 					});
 
 					return { saved, received };
 				})
-				.then((arrays) => {
-					arrays.saved.forEach((str) => {
+				.then(arrays => {
+					arrays.saved.forEach(str => {
 						if (
 							arrays.received.includes(str) &&
 							document.querySelector('.city-found').dataset.name === str
@@ -165,7 +164,7 @@ export const constructSavedPage = () => {
 						}
 					});
 				})
-				.catch((err) => renderCustomNotification(err));
+				.catch(err => renderCustomNotification(err));
 		}
 	};
 };
@@ -177,7 +176,7 @@ export const isCitiesRendered = () => {
 	}
 };
 
-export const handleWrapperListener = (event) => {
+export const handleWrapperListener = event => {
 	if (
 		event.target.closest('.city') &&
 		!event.target.classList.contains('city-delete')
@@ -196,7 +195,7 @@ export const handleWrapperListener = (event) => {
 		const targetCityName = event.target.closest('.city-found').dataset.name;
 		let isCitiesEquals = false;
 
-		JSON.parse(localStorage.getItem('storage')).cards.forEach((card) => {
+		JSON.parse(localStorage.getItem('storage')).cards.forEach(card => {
 			if (card.city.includes(targetCityName)) {
 				renderCustomNotification('This city already in the list!');
 				isCitiesEquals = true;
@@ -209,7 +208,7 @@ export const handleWrapperListener = (event) => {
 			BASE_URL,
 			event.target.closest('.city-found').dataset.name
 		)
-			.then((data) => {
+			.then(data => {
 				const card = {
 					city: data.location.name,
 					country: data.location.country,
@@ -225,7 +224,7 @@ export const handleWrapperListener = (event) => {
 			.then(() => {
 				constructSavedPage();
 			})
-			.catch((err) => renderCustomNotification(err));
+			.catch(err => renderCustomNotification(err));
 	}
 	if (event.target.closest('.input-search-icon')) {
 		toFocusInput();

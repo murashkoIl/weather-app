@@ -2,7 +2,7 @@ import { getCurrentWeather, BASE_URL } from '../weather';
 import { renderCustomNotification } from '../error/error';
 import { settingsObserver, themeObserver } from './../observer';
 
-export const renderSettingsPage = (data) => {
+export const renderSettingsPage = data => {
 	const storage = JSON.parse(window.localStorage.getItem('storage'));
 
 	return `
@@ -80,7 +80,7 @@ export const renderSettingsPage = (data) => {
 
 export const constructSettingsPage = () => {
 	getCurrentWeather(BASE_URL)
-		.then((data) => {
+		.then(data => {
 			const html = renderSettingsPage(data);
 			document.getElementById('content').innerHTML = html;
 		})
@@ -88,10 +88,10 @@ export const constructSettingsPage = () => {
 			const settings = document.querySelector('.settings-wrapper');
 			settings.addEventListener('click', settingsHandler);
 		})
-		.catch((err) => renderCustomNotification(err));
+		.catch(err => renderCustomNotification(err));
 };
 
-const settingsHandler = (event) => {
+const settingsHandler = event => {
 	const evnt = event.target;
 	const storage = JSON.parse(localStorage.getItem('storage'));
 	if (evnt.classList.contains('choice-temperature')) {

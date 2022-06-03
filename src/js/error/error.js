@@ -7,7 +7,7 @@ export const renderErrorPage = () => {
   `;
 };
 
-export const renderCustomNotification = (err) => {
+export const renderCustomNotification = err => {
 	const html = customNotification(err);
 	const div = document.createElement('div');
 	div.innerHTML = html;
@@ -20,7 +20,7 @@ export const renderCustomNotification = (err) => {
 		.addEventListener('click', removeCustomNotification);
 };
 
-export const customNotification = (err) => {
+export const customNotification = err => {
 	return `
     <div class="error-wrapper">
       <article class="error">
@@ -34,7 +34,7 @@ export const customNotification = (err) => {
   `;
 };
 
-export const removeCustomNotification = (event) => {
+export const removeCustomNotification = event => {
 	event.target.closest('.error-wrapper').remove();
 };
 

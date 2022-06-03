@@ -1,9 +1,9 @@
 import { getCurrentWeather, BASE_URL } from '../weather';
 import { renderCustomNotification } from '../error/error';
 
-export const renderHomePage = (data) => {
+export const renderHomePage = data => {
 	const dayIndex = new Date(data.forecast.forecastday[0].date).getDay();
-	const getDayName = (dayIndex) => {
+	const getDayName = dayIndex => {
 		const days = [
 			'Sunday',
 			'Monday',
@@ -11,7 +11,7 @@ export const renderHomePage = (data) => {
 			'Wednesday',
 			'Thursday',
 			'Friday',
-			'Saturday',
+			'Saturday'
 		];
 		return [...days, ...days][dayIndex];
 	};
@@ -87,7 +87,7 @@ export const renderHomePage = (data) => {
         <div class="today__temp-container">
             <div class="today__temp-flex-container">
                 ${data.forecast.forecastday[0].hour
-									.map((hour) => {
+									.map(hour => {
 										return `
                     <div class="today__temp-item today-item">
                       <div class="today-item__time">${hour.time.substr(
@@ -164,17 +164,17 @@ export const constructHomePage = () => {
 	const hash = window.location.hash.split('/')[1];
 	if (!hash) {
 		getCurrentWeather(BASE_URL)
-			.then((data) => {
+			.then(data => {
 				const html = renderHomePage(data);
 				document.getElementById('content').innerHTML = html;
 				window.scrollTo(0, 0);
 			})
-			.catch((err) => {
+			.catch(err => {
 				renderCustomNotification(err);
 			});
 	} else {
 		getCurrentWeather(BASE_URL, hash)
-			.then((data) => {
+			.then(data => {
 				const html = renderHomePage(data);
 				document.getElementById('content').innerHTML = html;
 				const goBack = document.querySelector('.header-return');
@@ -184,7 +184,7 @@ export const constructHomePage = () => {
 				});
 				window.scrollTo(0, 0);
 			})
-			.catch((err) => {
+			.catch(err => {
 				renderCustomNotification(err);
 			});
 	}

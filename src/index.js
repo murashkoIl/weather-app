@@ -15,7 +15,7 @@ if (localStorage.getItem('storage') === null) {
 			isCelcius: true,
 			isKPH: true,
 			editMode: false,
-			cards: [],
+			cards: []
 		})
 	);
 }
@@ -26,5 +26,5 @@ startRouterWatch({
 	'#home': constructHomePage,
 	'#saved': constructSavedPage,
 	'#settings': constructSettingsPage,
-	404: constructErrorPage,
+	404: constructErrorPage
 });

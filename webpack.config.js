@@ -14,23 +14,23 @@ module.exports = {
 	output: {
 		clean: true,
 		filename: 'bundle.js',
-		path: __dirname + '/dist',
+		path: __dirname + '/dist'
 		// assetModuleFilename: 'assets/[hash][ext][query]',
 	},
 	// devtool: 'source-map',
 	plugins: [
 		new MiniCssExtractPlugin({
-			filename: '[name].[contenthash].css',
+			filename: '[name].[contenthash].css'
 		}),
 		new HtmlWebpackPlugin({
-			template: './public/index.html',
-		}),
+			template: './public/index.html'
+		})
 	],
 	module: {
 		rules: [
 			{
 				test: /\.html$/i,
-				loader: 'html-loader',
+				loader: 'html-loader'
 			},
 			{
 				test: /\.(sa|sc|c)ss$/,
@@ -47,22 +47,22 @@ module.exports = {
 										'postcss-preset-env',
 										{
 											// Options
-										},
-									],
-								],
-							},
-						},
+										}
+									]
+								]
+							}
+						}
 					},
-					'sass-loader',
-				],
+					'sass-loader'
+				]
 			},
 			{
 				test: /\.(png|svg|jpg|jpeg|gif)$/i,
-				type: 'asset/resource',
+				type: 'asset/resource'
 			},
 			{
 				test: /\.(woff|woff2|eot|ttf|otf)$/i,
-				type: 'assets/resource',
+				type: 'assets/resource'
 			},
 			{
 				test: /\.m?js$/,
@@ -70,17 +70,17 @@ module.exports = {
 				use: {
 					loader: 'babel-loader',
 					options: {
-						presets: ['@babel/preset-env'],
-					},
-				},
-			},
-		],
+						presets: ['@babel/preset-env']
+					}
+				}
+			}
+		]
 	},
 	optimization: {
 		minimizer: [
 			new TerserPlugin({
-				extractComments: false,
-			}),
-		],
-	},
+				extractComments: false
+			})
+		]
+	}
 };

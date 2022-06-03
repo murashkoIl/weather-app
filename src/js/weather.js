@@ -6,7 +6,7 @@ export const getCurrentWeather = async (url, city = 'auto:ip') => {
 		url + `/forecast.json?key=${API_KEY}&q=${city}&days=4&aqi=no&alerts=no`;
 
 	const response = await fetch(currentWeatherUrl, {
-		method: 'GET',
+		method: 'GET'
 	});
 
 	if (!response.ok) {
@@ -23,7 +23,7 @@ export const getCities = async (url, text) => {
 		url + `/search.json?key=c1b5dcebecd24bc99f5141741221705&q=${text}`;
 
 	const response = await fetch(citiesWeatherUrl, {
-		method: 'GET',
+		method: 'GET'
 	});
 
 	if (!response.ok) {
