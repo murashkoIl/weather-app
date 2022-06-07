@@ -2,9 +2,9 @@ import { getCurrentWeather, BASE_URL } from '../weather';
 import { renderCustomNotification } from '../error/error';
 import { getLocalStorageData, saveLocalStorageData, getElementBySelector } from '../helpers';
 
-export const cityHandler = (targ, func) => {
+export const cityHandler = (arg, func) => {
 	const storage = getLocalStorageData();
-	storage.cards = func(targ, storage.cards);
+	storage.cards = func(arg, storage.cards);
 	saveLocalStorageData(storage);
 };
 
