@@ -1,6 +1,7 @@
 import { getCurrentWeather, BASE_URL } from '../weather';
 import { renderCustomNotification } from '../error/error';
 import { homePageTemplate } from '../../templates/home.template';
+import { addHtmlToDom, getLocalStorageData, renderHandler } from '../helpers';
 
 export const renderHomePage = data => {
 	const getDayName = dayIndex => {
@@ -16,10 +17,9 @@ export const renderHomePage = data => {
 		return [...days, ...days][dayIndex];
 	};
 
-	const storage = JSON.parse(window.localStorage.getItem('storage'));
+	const storage = getLocalStorageData();
 
 	return homePageTemplate(data, storage, getDayName);
-
 };
 
 export const constructHomePage = () => {
@@ -27,18 +27,16 @@ export const constructHomePage = () => {
 	if (!hash) {
 		getCurrentWeather(BASE_URL)
 			.then(data => {
-				const html = renderHomePage(data);
-				document.getElementById('content').innerHTML = html;
+				addHtmlToDom(renderHandler(renderHomePage, data))
 				window.scrollTo(0, 0);
 			})
 			.catch(err => {
-				renderCustomNotification(err);
+				renderHandler(renderCustomNotification, err);
 			});
 	} else {
 		getCurrentWeather(BASE_URL, hash)
 			.then(data => {
-				const html = renderHomePage(data);
-				document.getElementById('content').innerHTML = html;
+				addHtmlToDom(renderHandler(renderHomePage, data));
 				const goBack = document.querySelector('.header-return');
 				goBack.style.display = 'block';
 				goBack.addEventListener('click', () => {
@@ -47,7 +45,7 @@ export const constructHomePage = () => {
 				window.scrollTo(0, 0);
 			})
 			.catch(err => {
-				renderCustomNotification(err);
+				renderHandler(renderCustomNotification, err);
 			});
 	}
 };

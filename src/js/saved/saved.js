@@ -5,8 +5,11 @@ import {
 	deleteCity,
 	saveCity,
 	isCitiesRendered,
-	renderSavedPage
+	renderSavedPage,
+	cityHandler
 } from './savedHelpers';
+import { addHtmlToDom, getLocalStorageData, renderHandler } from '../helpers';
+
 
 export const toFocusInput = () => {
 	document.querySelector('.input-search').focus();
@@ -14,9 +17,8 @@ export const toFocusInput = () => {
 
 export const constructSavedPage = () => {
 	const wrapper = document.querySelector('.wrapper');
-	const html = renderSavedPage();
-	const storage = JSON.parse(localStorage.getItem('storage'));
-	document.getElementById('content').innerHTML = html;
+	const storage = getLocalStorageData();
+	addHtmlToDom(renderHandler(renderSavedPage));
 	window.scrollTo(0, 0);
 
 	wrapper.addEventListener('click', handleWrapperListener);
@@ -27,7 +29,7 @@ export const constructSavedPage = () => {
 		if (this.value.length > 2) {
 			getCities(BASE_URL, this.value)
 				.then(data => {
-					const html = renderFoundCities(data);
+					const html = renderHandler(renderFoundCities, data);
 					const div = document.createElement('div');
 					div.className = 'found-cities-wrapper';
 					div.innerHTML = html;
@@ -54,7 +56,7 @@ export const constructSavedPage = () => {
 						}
 					});
 				})
-				.catch(err => renderCustomNotification(err));
+				.catch(err => renderHandler(renderCustomNotification, err));
 		}
 	};
 };
@@ -71,7 +73,7 @@ export const handleWrapperListener = event => {
 		isCitiesRendered();
 	}
 	if (event.target.classList.contains('city-delete')) {
-		deleteCity(event.target.dataset.id);
+		cityHandler(event.target.dataset.id, deleteCity)
 		constructSavedPage();
 	}
 	if (event.target.closest('.city-found')) {
@@ -86,9 +88,9 @@ export const foundCityClickingHandler = event => {
 	const targetCityName = event.target.closest('.city-found').dataset.name;
 	let isCitiesEquals = false;
 
-	JSON.parse(localStorage.getItem('storage')).cards.forEach(card => {
+	getLocalStorageData().cards.forEach(card => {
 		if (card.city.includes(targetCityName)) {
-			renderCustomNotification('This city already in the list!');
+			renderHandler(renderCustomNotification, 'This city already in the list!');
 			isCitiesEquals = true;
 		}
 	});
@@ -107,11 +109,11 @@ export const foundCityClickingHandler = event => {
 				wind_kph: data.current.wind_kph,
 				wind_mph: data.current.wind_mph,
 			};
-			saveCity(card);
+			cityHandler(card, saveCity)
 		})
 		.then(() => {
 			constructSavedPage();
 		})
-		.catch(err => renderCustomNotification(err));
+		.catch(err => renderHandler(renderCustomNotification, err));
 };
 

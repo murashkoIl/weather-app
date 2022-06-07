@@ -20,14 +20,13 @@ export const getCities = async (url, text) => {
 		return;
 	}
 	const citiesWeatherUrl =
-		url + `/search.json?key=c1b5dcebecd24bc99f5141741221705&q=${text}`;
+		url + `/search.json?key=${API_KEY}&q=${text}`;
 
 	const response = await fetch(citiesWeatherUrl, {
 		method: 'GET'
 	});
 
 	if (!response.ok) {
-		alert(response.status);
 		throw new Error(`Error! status: ${response.status}`);
 	}
 

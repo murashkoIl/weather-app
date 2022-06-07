@@ -1,9 +1,10 @@
 import { getCurrentWeather, BASE_URL } from '../weather';
 import { renderCustomNotification } from '../error/error';
 import { settingsObserver, themeObserver } from './../observer';
+import { addHtmlToDom, getLocalStorageData, renderHandler, saveLocalStorageData } from '../helpers';
 
 export const renderSettingsPage = data => {
-	const storage = JSON.parse(window.localStorage.getItem('storage'));
+	const storage = getLocalStorageData();
 
 	return `
     <header class="header">
@@ -81,50 +82,44 @@ export const renderSettingsPage = data => {
 export const constructSettingsPage = () => {
 	getCurrentWeather(BASE_URL)
 		.then(data => {
-			const html = renderSettingsPage(data);
-			document.getElementById('content').innerHTML = html;
+			addHtmlToDom(renderHandler(renderSettingsPage, data));
 		})
 		.then(() => {
 			const settings = document.querySelector('.settings-wrapper');
 			settings.addEventListener('click', settingsHandler);
 		})
-		.catch(err => renderCustomNotification(err));
+		.catch(err => renderHandler(renderCustomNotification, err));
 };
 
 const settingsHandler = event => {
-	const evnt = event.target;
-	const storage = JSON.parse(localStorage.getItem('storage'));
-	if (evnt.classList.contains('choice-temperature')) {
-		if (evnt.textContent === 'ºC') {
-			evnt.textContent = 'ºF';
+	const e = event.target;
+	const storage = getLocalStorageData();
+	if (e.classList.contains('choice-temperature')) {
+		if (e.textContent === 'ºC') {
+			e.textContent = 'ºF';
 			storage.isCelcius = false;
-			localStorage.setItem('storage', JSON.stringify(storage));
 		} else {
-			evnt.textContent = 'ºC';
+			e.textContent = 'ºC';
 			storage.isCelcius = true;
-			localStorage.setItem('storage', JSON.stringify(storage));
 		}
-	} else if (evnt.classList.contains('choice-wind')) {
-		if (evnt.textContent === 'km/h') {
-			evnt.textContent = 'm/s';
+	} else if (e.classList.contains('choice-wind')) {
+		if (e.textContent === 'km/h') {
+			e.textContent = 'm/s';
 			storage.isKPH = false;
-			localStorage.setItem('storage', JSON.stringify(storage));
 		} else {
-			evnt.textContent = 'km/h';
+			e.textContent = 'km/h';
 			storage.isKPH = true;
-			localStorage.setItem('storage', JSON.stringify(storage));
 		}
-	} else if (evnt.classList.contains('choice-theme')) {
-		if (evnt.textContent === 'Dark') {
-			evnt.textContent = 'Light';
+	} else if (e.classList.contains('choice-theme')) {
+		if (e.textContent === 'Dark') {
+			e.textContent = 'Light';
 			storage.isDarkTheme = false;
-			localStorage.setItem('storage', JSON.stringify(storage));
 		} else {
-			evnt.textContent = 'Dark';
+			e.textContent = 'Dark';
 			storage.isDarkTheme = true;
-			localStorage.setItem('storage', JSON.stringify(storage));
 		}
 	}
+	saveLocalStorageData(storage);
 	settingsObserver.trigger();
 	themeObserver.trigger();
 };

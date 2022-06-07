@@ -1,3 +1,5 @@
+import { addHtmlToDom, renderHandler } from "../helpers";
+
 export const renderErrorPage = () => {
 	return `
     <div class="error-container">
@@ -8,7 +10,7 @@ export const renderErrorPage = () => {
 };
 
 export const renderCustomNotification = err => {
-	const html = customNotification(err);
+	const html = renderHandler(customNotification, err);
 	const div = document.createElement('div');
 	div.innerHTML = html;
 	document.querySelector('#content').appendChild(div);
@@ -39,6 +41,6 @@ export const removeCustomNotification = event => {
 };
 
 export const constructErrorPage = () => {
-	const html = renderErrorPage();
-	document.getElementById('content').innerHTML = html;
+  addHtmlToDom(renderHandler(renderErrorPage));
 };
+

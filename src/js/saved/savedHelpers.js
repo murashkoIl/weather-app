@@ -1,17 +1,19 @@
 import { getCurrentWeather, BASE_URL } from '../weather';
 import { renderCustomNotification } from '../error/error';
+import { getLocalStorageData, saveLocalStorageData } from '../helpers';
 
-export const deleteCity = city => {
-	const storage = JSON.parse(localStorage.getItem('storage'));
-	const filtered = storage.cards.filter(card => card.city !== city);
-	storage.cards = [...filtered];
-	localStorage.setItem('storage', JSON.stringify(storage));
+export const cityHandler = (targ, func) => {
+	const storage = getLocalStorageData();
+	storage.cards = func(targ, storage.cards);
+	saveLocalStorageData(storage);
 };
 
-export const saveCity = card => {
-	const storage = JSON.parse(window.localStorage.getItem('storage'));
-	storage.cards.push(card);
-	window.localStorage.setItem('storage', JSON.stringify(storage));
+export const deleteCity = (city, cards) => {
+	return [...cards.filter(card => card.city !== city)];
+};
+
+export const saveCity = (card, cards) => {
+	return [...cards, card];
 };
 
 export const renderFoundCities = data => {
@@ -103,8 +105,9 @@ export const renderSavedCities = () => {
 };
 
 export const updateCurrentWeather = () => {
-	const storage = JSON.parse(window.localStorage.getItem('storage'));
-	storage.cards.forEach((card, index) => {
+	const storage = getLocalStorageData();
+	const cards = [...storage.cards];
+	cards.forEach((card, index) => {
 		getCurrentWeather(BASE_URL, card.city)
 			.then(info => {
 				const updatedCard = {
@@ -117,10 +120,11 @@ export const updateCurrentWeather = () => {
 					wind_kph: info.current.wind_kph,
 					wind_mph: info.current.wind_mph,
 				};
-				storage.cards[index] = updatedCard;
-				window.localStorage.setItem('storage', JSON.stringify(storage));
+				cards[index] = updatedCard;
 			})
 			.catch(err => renderCustomNotification(err));
 	});
+	storage.cards = [...cards];
+	saveLocalStorageData(storage);
 	return storage;
 };
