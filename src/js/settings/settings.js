@@ -1,7 +1,7 @@
 import { getCurrentWeather, BASE_URL } from '../weather';
 import { renderCustomNotification } from '../error/error';
 import { settingsObserver, themeObserver } from './../observer';
-import { addHtmlToDom, getLocalStorageData, renderHandler, saveLocalStorageData } from '../helpers';
+import { addHtmlToDom, getLocalStorageData, renderHandler, saveLocalStorageData, getElementBySelector } from '../helpers';
 
 export const renderSettingsPage = data => {
 	const storage = getLocalStorageData();
@@ -85,7 +85,7 @@ export const constructSettingsPage = () => {
 			addHtmlToDom(renderHandler(renderSettingsPage, data));
 		})
 		.then(() => {
-			const settings = document.querySelector('.settings-wrapper');
+			const settings = getElementBySelector('.settings-wrapper');
 			settings.addEventListener('click', settingsHandler);
 		})
 		.catch(err => renderHandler(renderCustomNotification, err));

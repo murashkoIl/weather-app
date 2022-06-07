@@ -6,23 +6,28 @@ import {
 	saveCity,
 	isCitiesRendered,
 	renderSavedPage,
-	cityHandler
+	cityHandler,
 } from './savedHelpers';
-import { addHtmlToDom, getLocalStorageData, renderHandler } from '../helpers';
-
+import {
+	addHtmlToDom,
+	createBlock,
+	getElementBySelector,
+	getLocalStorageData,
+	renderHandler,
+} from '../helpers';
 
 export const toFocusInput = () => {
-	document.querySelector('.input-search').focus();
+	getElementBySelector('.input-search').focus();
 };
 
 export const constructSavedPage = () => {
-	const wrapper = document.querySelector('.wrapper');
+	const wrapper = getElementBySelector('.wrapper');
 	const storage = getLocalStorageData();
 	addHtmlToDom(renderHandler(renderSavedPage));
 	window.scrollTo(0, 0);
 
 	wrapper.addEventListener('click', handleWrapperListener);
-	const inputSearch = document.querySelector('.input-search');
+	const inputSearch = getElementBySelector('.input-search');
 
 	inputSearch.oninput = function () {
 		isCitiesRendered();
@@ -30,10 +35,9 @@ export const constructSavedPage = () => {
 			getCities(BASE_URL, this.value)
 				.then(data => {
 					const html = renderHandler(renderFoundCities, data);
-					const div = document.createElement('div');
-					div.className = 'found-cities-wrapper';
+					const div = createBlock('div', 'found-cities-wrapper');
 					div.innerHTML = html;
-					document.querySelector('.search-form').append(div);
+					getElementBySelector('.search-form').append(div);
 
 					const saved = [],
 						received = [];
@@ -50,9 +54,9 @@ export const constructSavedPage = () => {
 					arrays.saved.forEach(str => {
 						if (
 							arrays.received.includes(str) &&
-							document.querySelector('.city-found').dataset.name === str
+							getElementBySelector('.city-found').dataset.name === str
 						) {
-							document.querySelector('.search').style.color = '#ed2bdac2';
+							getElementBySelector('.search').style.color = '#ed2bdac2';
 						}
 					});
 				})
@@ -73,7 +77,7 @@ export const handleWrapperListener = event => {
 		isCitiesRendered();
 	}
 	if (event.target.classList.contains('city-delete')) {
-		cityHandler(event.target.dataset.id, deleteCity)
+		cityHandler(event.target.dataset.id, deleteCity);
 		constructSavedPage();
 	}
 	if (event.target.closest('.city-found')) {
@@ -109,11 +113,10 @@ export const foundCityClickingHandler = event => {
 				wind_kph: data.current.wind_kph,
 				wind_mph: data.current.wind_mph,
 			};
-			cityHandler(card, saveCity)
+			cityHandler(card, saveCity);
 		})
 		.then(() => {
 			constructSavedPage();
 		})
 		.catch(err => renderHandler(renderCustomNotification, err));
 };
-

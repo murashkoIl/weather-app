@@ -1,5 +1,5 @@
 export const addHtmlToDom = (func) => {
-	document.getElementById('content').innerHTML = func;
+	getElementBySelector('#content').innerHTML = func;
 };
 
 export const getLocalStorageData = () => {
@@ -15,4 +15,14 @@ export const renderHandler = (func, ...args) => {
     return func.call(this, ...args);
   }
   return func();
+};
+
+export const createBlock = (el, className = '') => {
+  const block = document.createElement(el);
+  block.className = className;
+  return block;
+};
+
+export const getElementBySelector = (selector) => {
+  return document.querySelector(selector);
 };

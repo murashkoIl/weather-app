@@ -1,7 +1,7 @@
 import { getCurrentWeather, BASE_URL } from '../weather';
 import { renderCustomNotification } from '../error/error';
 import { homePageTemplate } from '../../templates/home.template';
-import { addHtmlToDom, getLocalStorageData, renderHandler } from '../helpers';
+import { addHtmlToDom, getElementBySelector, getLocalStorageData, renderHandler } from '../helpers';
 
 export const renderHomePage = data => {
 	const getDayName = dayIndex => {
@@ -19,7 +19,7 @@ export const renderHomePage = data => {
 
 	const storage = getLocalStorageData();
 
-	return homePageTemplate(data, storage, getDayName);
+	return renderHandler(homePageTemplate, data, storage, getDayName);
 };
 
 export const constructHomePage = () => {
@@ -37,7 +37,7 @@ export const constructHomePage = () => {
 		getCurrentWeather(BASE_URL, hash)
 			.then(data => {
 				addHtmlToDom(renderHandler(renderHomePage, data));
-				const goBack = document.querySelector('.header-return');
+				const goBack = getElementBySelector('.header-return');
 				goBack.style.display = 'block';
 				goBack.addEventListener('click', () => {
 					window.location.hash = '#saved';

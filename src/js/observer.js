@@ -1,3 +1,5 @@
+import { getLocalStorageData, getElementBySelector } from "./helpers";
+
 class Observer {
 	constructor() {
 		this.observers = [];
@@ -24,10 +26,10 @@ export const settingsObserver = new Observer();
 export const themeObserver = new Observer();
 
 const themeHandler = () => {
-	const storage = JSON.parse(localStorage.getItem('storage'));
+	const storage = getLocalStorageData();
 	!storage.isDarkTheme
-		? document.querySelector('.wrapper').classList.add('light')
-		: document.querySelector('.wrapper').classList.remove('light');
+		? getElementBySelector('.wrapper').classList.add('light')
+		: getElementBySelector('.wrapper').classList.remove('light');
 };
 
 themeObserver.subscribe(themeHandler);

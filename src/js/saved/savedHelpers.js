@@ -1,6 +1,6 @@
 import { getCurrentWeather, BASE_URL } from '../weather';
 import { renderCustomNotification } from '../error/error';
-import { getLocalStorageData, saveLocalStorageData } from '../helpers';
+import { getLocalStorageData, saveLocalStorageData, getElementBySelector } from '../helpers';
 
 export const cityHandler = (targ, func) => {
 	const storage = getLocalStorageData();
@@ -34,7 +34,7 @@ export const renderFoundCities = data => {
 };
 
 export const isCitiesRendered = () => {
-	const citiesWrapper = document.querySelector('.found-cities-wrapper');
+	const citiesWrapper = getElementBySelector('.found-cities-wrapper');
 	if (citiesWrapper) {
 		citiesWrapper.remove();
 	}

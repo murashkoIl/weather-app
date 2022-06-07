@@ -1,4 +1,9 @@
-import { addHtmlToDom, renderHandler } from "../helpers";
+import {
+	addHtmlToDom,
+	renderHandler,
+	createBlock,
+	getElementBySelector,
+} from '../helpers';
 
 export const renderErrorPage = () => {
 	return `
@@ -11,15 +16,20 @@ export const renderErrorPage = () => {
 
 export const renderCustomNotification = err => {
 	const html = renderHandler(customNotification, err);
-	const div = document.createElement('div');
+
+	const div = createBlock('div');
+	console.log(typeof div);
 	div.innerHTML = html;
-	document.querySelector('#content').appendChild(div);
+	getElementBySelector('#content').appendChild(div);
+
 	setTimeout(() => {
-		document.querySelector('.error-wrapper').classList.add('show');
+		getElementBySelector('.error-wrapper').classList.add('show');
 	}, 700);
-	document
-		.querySelector('.error-close')
-		.addEventListener('click', removeCustomNotification);
+  
+	getElementBySelector('.error-close').addEventListener(
+		'click',
+		removeCustomNotification
+	);
 };
 
 export const customNotification = err => {
@@ -41,6 +51,5 @@ export const removeCustomNotification = event => {
 };
 
 export const constructErrorPage = () => {
-  addHtmlToDom(renderHandler(renderErrorPage));
+	addHtmlToDom(renderHandler(renderErrorPage));
 };
-
