@@ -53,3 +53,5 @@ const settingsHandler = event => {
 	settingsObserver.trigger();
 	themeObserver.trigger();
 };
+
+let a; 
