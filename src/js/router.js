@@ -1,5 +1,4 @@
 import { themeObserver } from './observer';
-// import { constructErrorPage } from './error/error';
 
 export const startRouterWatch = routes => {
 	window.onload = () => {
@@ -15,7 +14,6 @@ export const startRouterWatch = routes => {
 };
 
 export const locationChangeHandler = routes => {
-	// console.log(constructErrorPage());
 	const hash = window.location.hash;
 	const regex = /#city\/[a-zA-Z]{2,}/g;
 

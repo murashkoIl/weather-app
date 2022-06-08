@@ -7,7 +7,7 @@ import {
 	isCitiesRendered,
 	renderSavedPage,
 	cityHandler,
-} from './savedHelpers';
+} from './savedRenders';
 import {
 	addHtmlToDom,
 	createBlock,
@@ -22,12 +22,11 @@ export const toFocusInput = () => {
 
 export const constructSavedPage = () => {
 	const wrapper = getElementBySelector('.wrapper');
-	const storage = getLocalStorageData();
 	addHtmlToDom(renderHandler(renderSavedPage));
 	window.scrollTo(0, 0);
-
 	wrapper.addEventListener('click', handleWrapperListener);
 	const inputSearch = getElementBySelector('.input-search');
+	const storage = getLocalStorageData();
 
 	inputSearch.oninput = function () {
 		isCitiesRendered();

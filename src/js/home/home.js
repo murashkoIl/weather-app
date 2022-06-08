@@ -33,6 +33,7 @@ export const constructHomePage = () => {
 			.catch(err => {
 				renderHandler(renderCustomNotification, err);
 			});
+			
 	} else {
 		getCurrentWeather(BASE_URL, hash)
 			.then(data => {
