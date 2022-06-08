@@ -19,7 +19,7 @@ export const renderCustomNotification = err => {
 
 	setTimeout(() => {
 		getElementBySelector('.error-wrapper').classList.add('show');
-	}, 700);
+	}, 300);
 
 	getElementBySelector('.error-close').addEventListener(
 		'click',

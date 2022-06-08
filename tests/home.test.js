@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { constructHomePage, renderHomePage } from './../src/js/home/home';
+import { renderHomePage } from './../src/js/home/home';
 
 describe('index.html', () => {
 	it('Home page was rendered', () => {
