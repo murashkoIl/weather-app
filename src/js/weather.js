@@ -15,7 +15,7 @@ export const getCurrentWeather = async (url, city = 'auto:ip') => {
 	return await response.json();
 };
 
-export const getCities = async (url, text) => {
+export const getCities = async (url, text= '') => {
 	if (text.length < 2) {
 		return;
 	}

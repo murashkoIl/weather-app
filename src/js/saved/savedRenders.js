@@ -1,6 +1,8 @@
 import { getCurrentWeather, BASE_URL } from '../weather';
 import { renderCustomNotification } from '../error/error';
-import { getLocalStorageData, saveLocalStorageData, getElementBySelector, renderHandler } from '../helpers';
+import { getElementBySelector } from './../../helpers/dom';
+import { renderHandler } from '../../helpers/render';
+import { getLocalStorageData, saveLocalStorageData } from '../../helpers/localstorage';
 import { foundCitiesTemplate, savedCitiesTemplate, savedPageTemplate } from '../../templates/saved.template';
 
 export const cityHandler = (arg, func) => {

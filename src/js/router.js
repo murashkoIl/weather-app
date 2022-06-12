@@ -1,7 +1,9 @@
-import { themeObserver } from './observer';
+import { themeObserver } from './../js/settings/settings';
+import { initializeLocalStorageData } from './../helpers/localstorage';
 
 export const startRouterWatch = routes => {
 	window.onload = () => {
+		initializeLocalStorageData();
 		themeObserver.trigger();
 		window.location.hash = '#home';
 		locationChangeHandler(routes);
@@ -14,6 +16,7 @@ export const startRouterWatch = routes => {
 };
 
 export const locationChangeHandler = routes => {
+	document.querySelector('#content').innerHTML = '';
 	const hash = window.location.hash;
 	const regex = /#city\/[a-zA-Z]{2,}/g;
 

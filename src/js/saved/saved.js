@@ -8,13 +8,10 @@ import {
 	renderSavedPage,
 	cityHandler,
 } from './savedRenders';
-import {
-	addHtmlToDom,
-	createBlock,
-	getElementBySelector,
-	getLocalStorageData,
-	renderHandler,
-} from '../helpers';
+
+import { addHtmlToDom, createBlock, getElementBySelector } from './../../helpers/dom';
+import { renderHandler } from '../../helpers/render';
+import { getLocalStorageData } from '../../helpers/localstorage';
 
 export const toFocusInput = () => {
 	getElementBySelector('.input-search').focus();

@@ -1,30 +1,16 @@
 import './styles/index.scss';
 import './js/footer';
+import './js/dataManager';
 import { startRouterWatch } from './js/router';
-import { constructHomePage } from './js/home/home';
-import { constructSettingsPage } from './js/settings/settings';
-import { constructErrorPage } from './js/error/error';
+import { constructHomePage, homePage } from './js/home/home';
+import { constructSettingsPage, settingsPage } from './js/settings/settings';
+import { errorPage } from './js/error/error';
 import { constructSavedPage } from './js/saved/saved';
-import { settingsObserver } from './js/observer';
-
-if (localStorage.getItem('storage') === null) {
-	localStorage.setItem(
-		'storage',
-		JSON.stringify({
-			isDarkTheme: true,
-			isCelcius: true,
-			isKPH: true,
-			editMode: false,
-			cards: []
-		})
-	);
-}
-
-settingsObserver.subscribe(constructSettingsPage);
 
 startRouterWatch({
-	'#home': constructHomePage,
+	'#home': homePage,
 	'#saved': constructSavedPage,
-	'#settings': constructSettingsPage,
-	404: constructErrorPage
+	'#settings': settingsPage,
+	404: errorPage
 });
+

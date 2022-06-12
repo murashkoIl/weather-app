@@ -1,3 +1,5 @@
+import { fetchTemperature, fetchWindSpeed } from './../js/settings/settings';
+
 export const settingsPageTemplate = (storage, data) => {
   return `
     <header class="header">
@@ -14,9 +16,7 @@ export const settingsPageTemplate = (storage, data) => {
 							data.current.condition.icon
 						}" alt="Weather Icon"></div>
             <div class="city-status">${data.current.condition.text}</div>
-            <div class="city-temperature">${
-							storage.isCelcius ? data.current.temp_c : data.current.temp_f
-						}º</div>
+            <div class="city-temperature-wrapper">${fetchTemperature()}</div>
             <div class="city-settings">
                 <div class="weather__info-humidity-wrapper">
                     <div class="weather__info-humidity-icon"><i class="fa-solid fa-droplet"></i></div>
@@ -33,11 +33,7 @@ export const settingsPageTemplate = (storage, data) => {
                 </div>
                 <div class="weather__info-wind-wrapper">
                     <div class="weather__info-wind-icon"><i class="fa-solid fa-wind"></i></div>
-                    <div class="weather__info-wind">${
-											storage.isKPH
-												? data.current.wind_kph + 'km/h'
-												: data.current.wind_mph + 'm/s'
-										}</div>
+                    <div class="weather__info-wind-wrapper">${fetchWindSpeed()}</div>
                 </div>
             </div>
 

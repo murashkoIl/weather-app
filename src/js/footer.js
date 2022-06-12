@@ -1,4 +1,4 @@
-import { getElementBySelector } from './helpers';
+import { getElementBySelector } from './../helpers/dom';
 
 const link = getElementBySelector('.footer-container');
 
