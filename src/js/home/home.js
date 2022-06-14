@@ -1,8 +1,6 @@
-import { getCurrentWeather, BASE_URL } from '../weather';
-import { renderCustomNotification } from '../error/error';
 import { homePageTemplate } from '../../templates/home.template';
-import { addHtmlToDom, createBlock, getElementBySelector } from './../../helpers/dom';
-import { renderHandler } from '../../helpers/render';
+import { createBlock, getElementBySelector } from './../../helpers/dom';
+import { renderHandler, renderLoader } from '../../helpers/render';
 import { getLocalStorageData } from '../../helpers/localstorage';
 import { emitter } from '../emitter';
 
@@ -27,41 +25,19 @@ export const renderHomePage = data => {
 
 export const constructHomePage = () => {
 	const hash = window.location.hash.split('/')[1];
-	const htmlObject = createBlock('div', 'home-page');
+	const htmlObject = createBlock('div', 'loader-wrapper');
+	htmlObject.innerHTML = renderHandler(renderLoader);
+
 	if (!hash) {
-
-		emitter.emit('getCurrentCity', { city: 'auto:ip', method: renderHomePage, html: htmlObject});
+		emitter.emit('getCurrentCity', { city: 'auto:ip', method: renderHomePage});
 		window.scrollTo(0, 0);
+
 		return htmlObject;
-
-		// getCurrentWeather(BASE_URL)
-		// 	.then(data => {
-		// 		addHtmlToDom(renderHandler(renderHomePage, data))
-		// 		window.scrollTo(0, 0);
-		// 	})
-		// 	.catch(err => {
-		// 		renderHandler(renderCustomNotification, err);
-		// 	});
-
 	} else {
-
-		emitter.emit('getCurrentCity', { city: hash, method: renderHomePage, html: htmlObject});
+		emitter.emit('getCurrentCity', { city: hash, method: renderHomePage});
 		window.scrollTo(0, 0);
-		return htmlObject;
 
-		// getCurrentWeather(BASE_URL, hash)
-		// 	.then(data => {
-		// 		addHtmlToDom(renderHandler(renderHomePage, data));
-		// 		const goBack = getElementBySelector('.header-return');
-		// 		goBack.style.display = 'block';
-		// 		goBack.addEventListener('click', () => {
-		// 			window.location.hash = '#saved';
-		// 		});
-		// 		window.scrollTo(0, 0);
-		// 	})
-		// 	.catch(err => {
-		// 		renderHandler(renderCustomNotification, err);
-		// 	});
+		return htmlObject;
 	}
 };
 
@@ -69,3 +45,14 @@ export const constructHomePage = () => {
 export const homePage = () => {
   getElementBySelector('#content').appendChild(constructHomePage());
 };
+
+export const checkingHomePageRendering = () => {
+	if (getElementBySelector('.header-return') && window.location.hash.split('/')[1]) {
+		const returnButton = getElementBySelector('.header-return');
+
+		returnButton.style.display = 'block';
+		returnButton.addEventListener('click', () => {
+			document.location.assign('#saved');
+		})
+	}
+}

@@ -11,3 +11,7 @@ export const getElementBySelector = (selector) => {
 export const addHtmlToDom = (func) => {
 	getElementBySelector('#content').innerHTML = func;
 };
+
+export const appendHtmlElement = (html) => {
+  getElementBySelector('#content').appendChild(html);
+}

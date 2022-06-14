@@ -1,11 +1,10 @@
 import { getCurrentWeather, BASE_URL } from '../weather';
-import { renderCustomNotification } from '../error/error';
-import { addHtmlToDom, getElementBySelector } from './../../helpers/dom';
+import { getElementBySelector } from './../../helpers/dom';
 import {
 	saveLocalStorageData,
 	getLocalStorageData,
 } from '../../helpers/localstorage';
-import { renderHandler } from '../../helpers/render';
+import { renderHandler, renderLoader } from '../../helpers/render';
 import { settingsPageTemplate } from '../../templates/settings.template';
 import { Observer } from './../observer';
 import { createBlock } from './../../helpers/dom'; 
@@ -21,12 +20,10 @@ export const renderSettingsPage = data => {
 
 export const constructSettingsPage = () => {
 
-	const htmlObject = createBlock('div', 'settings-page');
-	emitter.emit('getCurrentCity', { city: 'auto:ip', method: renderSettingsPage, html: htmlObject});
-	// htmlObject.innerHTML = renderHandler(renderSettingsPage, data);
+	const htmlObject = createBlock('div', 'loader-wrapper');
+	htmlObject.innerHTML = renderHandler(renderLoader);
+	emitter.emit('getCurrentCity', {city: 'auto:ip', method: renderSettingsPage});
 
-	// const settings = getElementBySelector('.settings-wrapper');
-	getElementBySelector('#content').addEventListener('click', settingsHandler);
   return htmlObject; 
 };
 
@@ -34,33 +31,15 @@ export const settingsPage = () => {
   getElementBySelector('#content').appendChild(constructSettingsPage());
 };
 
-const settingsHandler = event => {
+export const settingsHandler = event => {
 	const e = event.target;
 	const storage = getLocalStorageData();
 	if (e.classList.contains('choice-temperature')) {
-		if (e.textContent === 'ºC') {
-			e.textContent = 'ºF';
-			storage.isCelcius = false;
-		} else {
-			e.textContent = 'ºC';
-			storage.isCelcius = true;
-		}
+		choiceTemperatureHandler(e, storage)
 	} else if (e.classList.contains('choice-wind')) {
-		if (e.textContent === 'km/h') {
-			e.textContent = 'm/s';
-			storage.isKPH = false;
-		} else {
-			e.textContent = 'km/h';
-			storage.isKPH = true;
-		}
+		choiceWindHandler(e, storage);
 	} else if (e.classList.contains('choice-theme')) {
-		if (e.textContent === 'Dark') {
-			e.textContent = 'Light';
-			storage.isDarkTheme = false;
-		} else {
-			e.textContent = 'Dark';
-			storage.isDarkTheme = true;
-		}
+		choiceThemeHandler(e, storage)
 	}
 	saveLocalStorageData(storage);
 	settingsObserver.trigger();
@@ -113,6 +92,43 @@ const themeHandler = () => {
 		: getElementBySelector('.wrapper').classList.remove('light');
 };
 
+const choiceWindHandler = (event, storage) => {
+	if (event.textContent === 'km/h') {
+		event.textContent = 'm/s';
+		storage.isKPH = false;
+	} else {
+		event.textContent = 'km/h';
+		storage.isKPH = true;
+	}
+}
+
+const choiceThemeHandler = (event, storage) => {
+	if (event.textContent === 'Dark') {
+		event.textContent = 'Light';
+		storage.isDarkTheme = false;
+	} else {
+		event.textContent = 'Dark';
+		storage.isDarkTheme = true;
+	}
+}
+
+const choiceTemperatureHandler = (event, storage) => {
+	if (event.textContent === 'ºC') {
+		event.textContent = 'ºF';
+		storage.isCelcius = false;
+	} else {
+		event.textContent = 'ºC';
+		storage.isCelcius = true;
+	}
+}
+
+export const checkingSettingsPageRendering = () => {
+	if(getElementBySelector('.settings-wrapper')) {
+		getElementBySelector('.settings').addEventListener('click', settingsHandler);
+	}
+}
+
 themeObserver.subscribe(themeHandler);
 settingsObserver.subscribe(fetchTemperature);
 settingsObserver.subscribe(fetchWindSpeed);
+
