@@ -1,4 +1,4 @@
-import { themeObserver } from './../js/settings/settings';
+import { themeObserver } from './pages/settings/settings';
 import { initializeLocalStorageData } from './../helpers/localstorage';
 
 export const startRouterWatch = routes => {

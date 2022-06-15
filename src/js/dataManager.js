@@ -1,11 +1,12 @@
 import { createBlock, getElementBySelector, appendHtmlElement } from '../helpers/dom';
-import { checkingLoaderPresence, renderHandler } from '../helpers/render';
-import { emitter } from './emitter';
-import { renderCustomNotification } from './error/error';
-import { checkingHomePageRendering } from './home/home';
-import { checkingSettingsPageRendering } from './settings/settings';
+import { renderHandler } from '../helpers/render';
+import { emitter } from '../helpers/emitter';
+import { renderCustomNotification } from './pages/error/error';
+import { checkingHomePageRendering } from './pages/home/home';
+import { checkingSettingsPageRendering } from './pages/settings/settings';
 import { BASE_URL, getCities, getCurrentWeather } from './weather';
-import { checkingSavedPageRendering, addOnInputListener, processCityClick } from './saved/saved';
+import { checkingSavedPageRendering, addOnInputListener, processCityClick } from './pages/saved/saved';
+import { checkingLoaderPresence } from './pages/loader';
 
 
 emitter.subscribe('getCurrentCity', ({ city, method }) => {

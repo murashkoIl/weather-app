@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
- import { renderErrorPage } from './../src/js/error/error';
+ import { renderErrorPage } from '../src/js/pages/error/error';
 
  describe('index.html', () => {
    it('Settings page was rendered', () => {

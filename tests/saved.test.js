@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { renderSavedPage, deleteCity, saveCity } from './../src/js/saved/savedRenders';
+import { renderSavedPage, deleteCity, saveCity } from '../src/js/pages/saved/savedRenders';
 
 describe('index.html', () => {
 	it('Saved page was rendered', () => {

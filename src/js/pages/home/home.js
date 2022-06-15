@@ -1,8 +1,9 @@
-import { homePageTemplate } from '../../templates/home.template';
-import { createBlock, getElementBySelector } from './../../helpers/dom';
-import { renderHandler, renderLoader } from '../../helpers/render';
-import { getLocalStorageData } from '../../helpers/localstorage';
-import { emitter } from '../emitter';
+import { homePageTemplate } from '../../../templates/home.template';
+import { createBlock, getElementBySelector } from '../../../helpers/dom';
+import { renderHandler} from '../../../helpers/render';
+import { getLocalStorageData } from '../../../helpers/localstorage';
+import { emitter } from '../../../helpers/emitter';
+import { renderLoader } from '../loader';
 
 export const renderHomePage = data => {
 	const getDayName = dayIndex => {

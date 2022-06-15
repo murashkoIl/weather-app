@@ -1,14 +1,15 @@
-import { getCurrentWeather, BASE_URL } from '../weather';
-import { getElementBySelector } from './../../helpers/dom';
+import { getCurrentWeather, BASE_URL } from '../../weather';
+import { getElementBySelector } from '../../../helpers/dom';
 import {
 	saveLocalStorageData,
 	getLocalStorageData,
-} from '../../helpers/localstorage';
-import { renderHandler, renderLoader } from '../../helpers/render';
-import { settingsPageTemplate } from '../../templates/settings.template';
-import { Observer } from './../observer';
-import { createBlock } from './../../helpers/dom'; 
-import { emitter } from '../emitter';
+} from '../../../helpers/localstorage';
+import { renderHandler } from '../../../helpers/render';
+import { settingsPageTemplate } from '../../../templates/settings.template';
+import { Observer } from '../../../helpers/observer';
+import { createBlock } from '../../../helpers/dom'; 
+import { emitter } from '../../../helpers/emitter';
+import { renderLoader } from '../loader';
 
 export const settingsObserver = new Observer();
 export const themeObserver = new Observer();

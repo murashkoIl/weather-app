@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
- import { renderSettingsPage } from './../src/js/settings/settings';
+ import { renderSettingsPage } from '../src/js/pages/settings/settings';
 
  describe('index.html', () => {
    it('Settings page was rendered', () => {

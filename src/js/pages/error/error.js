@@ -1,6 +1,6 @@
-import { customNotificationTemplate, errorPageTemplate } from '../../templates/error.template';
-import { createBlock, getElementBySelector } from './../../helpers/dom';
-import { renderHandler } from '../../helpers/render';
+import { customNotificationTemplate, errorPageTemplate } from '../../../templates/error.template';
+import { createBlock, getElementBySelector } from '../../../helpers/dom';
+import { renderHandler } from '../../../helpers/render';
 
 export const renderErrorPage = () => {
 	return errorPageTemplate();

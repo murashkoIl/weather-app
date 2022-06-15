@@ -1,4 +1,4 @@
-import { fetchTemperature, fetchWindSpeed } from './../js/settings/settings';
+import { fetchTemperature, fetchWindSpeed } from '../js/pages/settings/settings';
 
 export const settingsPageTemplate = (storage, data) => {
   return `

@@ -11,10 +11,11 @@ import {
 import {
 	createBlock,
 	getElementBySelector,
-} from './../../helpers/dom';
-import { renderHandler, renderLoader } from '../../helpers/render';
-import { getLocalStorageData } from '../../helpers/localstorage';
-import { emitter } from '../emitter';
+} from '../../../helpers/dom';
+import { renderHandler } from '../../../helpers/render';
+import { getLocalStorageData } from '../../../helpers/localstorage';
+import { emitter } from '../../../helpers/emitter';
+import { renderLoader } from '../loader';
 
 export const toFocusInput = () => {
 	getElementBySelector('.input-search').focus();
