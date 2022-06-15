@@ -2,16 +2,13 @@ import { renderCustomNotification } from '../error/error';
 import {
 	renderFoundCities,
 	deleteCity,
-	isCitiesRendered,
+	removeCitiesIfRendered,
 	renderSavedPage,
 	cityHandler,
 	saveCity
 } from './savedRenders';
 
-import {
-	createBlock,
-	getElementBySelector,
-} from '../../../helpers/dom';
+import { createBlock, getElementBySelector } from '../../../helpers/dom';
 import { renderHandler } from '../../../helpers/render';
 import { getLocalStorageData } from '../../../helpers/localstorage';
 import { emitter } from '../../../helpers/emitter';
@@ -34,8 +31,9 @@ export const constructSavedPage = () => {
 };
 
 export const savedPage = () => {
-	getElementBySelector('#content').innerHTML = '';
-	getElementBySelector('#content').appendChild(constructSavedPage());
+	const content = getElementBySelector('#content');
+	content.innerHTML = '';
+	content.appendChild(constructSavedPage());
 	addOnInputListener();
 }
 
@@ -49,7 +47,7 @@ export const addOnInputListener = () => {
 }
 
 export const searchHandler = (input) => {
-	isCitiesRendered();
+	removeCitiesIfRendered();
 
 	if (input.value.length > 2) {
 		emitter.emit('getCities', { city: input.value });
@@ -65,7 +63,7 @@ export const handleWrapperListener = event => {
 		document.location.assign(newLocation);
 	}
 	if (!event.target.classList.contains('found-cities-wrapper')) {
-		isCitiesRendered();
+		removeCitiesIfRendered();
 	}
 	if (event.target.classList.contains('city-delete')) {
 		cityHandler(event.target.dataset.id, deleteCity);
@@ -81,16 +79,8 @@ export const handleWrapperListener = event => {
 
 export const foundCityClickingHandler = event => {
 	const targetCityName = event.target.closest('.city-found').dataset.name;
-	let isCitiesEquals = false;
 
-	getLocalStorageData().cards.forEach(card => {
-		if (card.city.includes(targetCityName)) {
-			renderHandler(renderCustomNotification, 'This city already in the list!');
-			isCitiesEquals = true;
-		}
-	});
-
-	if (isCitiesEquals) return;
+	if (cityAlreadyAddedValidation(targetCityName)) return;
 
 	const htmlObject = createBlock('div', 'loader-wrapper');
 	htmlObject.innerHTML = renderHandler(renderLoader);
@@ -117,7 +107,7 @@ export const checkingSavedPageRendering = (data) => {
 	}
 }
 
-export const processCityClick = (data) => {
+export const handleCityClick = (data) => {
 	const storage = getLocalStorageData();
 	const html = renderHandler(renderFoundCities, data);
 	const div = createBlock('div', 'found-cities-wrapper');
@@ -141,4 +131,17 @@ export const processCityClick = (data) => {
 			getElementBySelector('.search').style.color = '#ed2bdac2';
 		}
 	});
+}
+
+const cityAlreadyAddedValidation = (city) => {
+	let isCityAdded = false;
+
+	getLocalStorageData().cards.forEach(card => {
+		if (card.city.includes(city)) {
+			renderHandler(renderCustomNotification, 'This city already in the list!');
+			isCityAdded = true;
+		}
+	});
+
+	return isCityAdded;
 }

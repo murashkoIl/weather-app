@@ -16,7 +16,6 @@ export const startRouterWatch = routes => {
 };
 
 export const locationChangeHandler = routes => {
-	document.querySelector('#content').innerHTML = '';
 	const hash = window.location.hash;
 	const regex = /#city\/[a-zA-Z]{2,}/g;
 

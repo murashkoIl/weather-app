@@ -23,7 +23,7 @@ export const renderFoundCities = data => {
 	return foundCitiesTemplate(data);
 };
 
-export const isCitiesRendered = () => {
+export const removeCitiesIfRendered = () => {
 	const citiesWrapper = getElementBySelector('.found-cities-wrapper');
 	if (citiesWrapper) {
 		citiesWrapper.remove();

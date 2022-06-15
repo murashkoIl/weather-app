@@ -72,8 +72,8 @@ export const fetchTemperature = () => {
 	getCurrentWeather(BASE_URL)
 		.then(data => renderTemperature(data))
 		.then(
-			str =>
-				(getElementBySelector('.city-temperature-wrapper').innerHTML = str)
+			temp =>
+				(getElementBySelector('.city-temperature-wrapper').innerHTML = temp)
 	);
 };
 
@@ -81,8 +81,8 @@ export const fetchWindSpeed = () => {
 	getCurrentWeather(BASE_URL)
 		.then(data => renderWindSpeed(data))
 		.then(
-			str =>
-				(getElementBySelector('.weather__info-wind-wrapper').innerHTML = str)
+			windSpeed =>
+				(getElementBySelector('.weather__info-wind-wrapper').innerHTML = windSpeed)
 	);
 }
 

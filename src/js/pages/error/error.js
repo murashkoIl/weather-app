@@ -28,6 +28,7 @@ export const customNotification = err => {
 };
 
 export const removeCustomNotification = event => {
+	event.preventDefault();
 	event.target.closest('.error-wrapper').remove();
 };
 

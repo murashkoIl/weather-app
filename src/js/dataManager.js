@@ -5,7 +5,7 @@ import { renderCustomNotification } from './pages/error/error';
 import { checkingHomePageRendering } from './pages/home/home';
 import { checkingSettingsPageRendering } from './pages/settings/settings';
 import { BASE_URL, getCities, getCurrentWeather } from './weather';
-import { checkingSavedPageRendering, addOnInputListener, processCityClick } from './pages/saved/saved';
+import { checkingSavedPageRendering, addOnInputListener, handleCityClick } from './pages/saved/saved';
 import { checkingLoaderPresence } from './pages/loader';
 
 
@@ -36,7 +36,7 @@ emitter.subscribe('getCities', ({ city }) => {
 	getCities(BASE_URL, city)
 		.then(data => {
 			const unsubscribe = emitter.subscribe('receiveCities', data => {
-        processCityClick(data);
+        handleCityClick(data);
       });
 
       emitter.emit('receiveCities', data);
