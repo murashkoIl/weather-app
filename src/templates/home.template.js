@@ -1,5 +1,5 @@
 export const homePageTemplate = (data, storage, getDayName) => {
-  const dayIndex = new Date(data.forecast.forecastday[0].date).getDay();
+	const dayIndex = new Date(data.forecast.forecastday[0].date).getDay();
 
 	return `
   <header>

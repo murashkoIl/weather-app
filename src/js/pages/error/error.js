@@ -1,4 +1,7 @@
-import { customNotificationTemplate, errorPageTemplate } from '../../../templates/error.template';
+import {
+	customNotificationTemplate,
+	errorPageTemplate,
+} from '../../../templates/error.template';
 import { createBlock, getElementBySelector } from '../../../helpers/dom';
 import { renderHandler } from '../../../helpers/render';
 
@@ -33,12 +36,12 @@ export const removeCustomNotification = event => {
 };
 
 export const constructErrorPage = () => {
-  const htmlObject = createBlock('div', 'error-page');
-  htmlObject.innerHTML = renderHandler(renderErrorPage);
-  return htmlObject; 
+	const htmlObject = createBlock('div', 'error-page');
+	htmlObject.innerHTML = renderHandler(renderErrorPage);
+	return htmlObject;
 };
 
 export const errorPage = () => {
 	getElementBySelector('#content').innerHTML = '';
-  getElementBySelector('#content').appendChild(constructErrorPage());
+	getElementBySelector('#content').appendChild(constructErrorPage());
 };

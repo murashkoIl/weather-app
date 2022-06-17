@@ -8,7 +8,7 @@ import { settingsPageTemplate } from '../../../templates/settings.template';
 import { Observer } from '../../../helpers/observer';
 import { createBlock } from '../../../helpers/dom';
 import { emitter } from '../../../helpers/emitter';
-import { hideLoader, displayLoader } from '../loader'; 
+import { hideLoader, displayLoader } from '../loader';
 
 export const settingsObserver = new Observer();
 export const themeObserver = new Observer();
@@ -21,12 +21,12 @@ export const renderSettingsPage = data => {
 export const constructSettingsPage = () => {
 	const settingsHtmlObject = createBlock('div', 'settings-wrapper');
 
-	const unsbuscribe = emitter.subscribe('receiveCurrentCity', (data) => {
+	const unsbuscribe = emitter.subscribe('receiveCurrentCity', data => {
 		settingsHtmlObject.innerHTML = renderHandler(renderSettingsPage, data);
 		unsbuscribe();
-	})
+	});
 	emitter.emit('getCurrentCity', { city: 'auto:ip' });
-	
+
 	return settingsHtmlObject;
 };
 
@@ -63,8 +63,8 @@ export const renderWindSpeed = data => {
 	<div class="weather__info-wind-icon"><i class="fa-solid fa-wind"></i></div>
 	<div class="weather__info-wind">${
 		storage.isKPH
-		? data.current.wind_kph + 'km/h'
-		: data.current.wind_mph + 'm/s'
+			? data.current.wind_kph + 'km/h'
+			: data.current.wind_mph + 'm/s'
 	}</div>
 	`;
 };
@@ -79,18 +79,22 @@ export const renderTemperature = data => {
 };
 
 export const fetchTemperature = () => {
-	const unsbuscribe = emitter.subscribe('receiveCurrentCity', (data) => {
-		getElementBySelector('.city-temperature-wrapper').innerHTML = renderHandler(renderTemperature, data);
+	const unsbuscribe = emitter.subscribe('receiveCurrentCity', data => {
+		getElementBySelector('.city-temperature-wrapper').innerHTML = renderHandler(
+			renderTemperature,
+			data
+		);
 		unsbuscribe();
-	})
+	});
 	emitter.emit('getCurrentCity', { city: 'auto:ip' });
 };
 
 export const fetchWindSpeed = () => {
-	const unsbuscribe = emitter.subscribe('receiveCurrentCity', (data) => {
-		getElementBySelector('.weather__info-wind-wrapper').innerHTML = renderHandler(renderWindSpeed, data);
+	const unsbuscribe = emitter.subscribe('receiveCurrentCity', data => {
+		getElementBySelector('.weather__info-wind-wrapper').innerHTML =
+			renderHandler(renderWindSpeed, data);
 		unsbuscribe();
-	})
+	});
 	emitter.emit('getCurrentCity', { city: 'auto:ip' });
 };
 

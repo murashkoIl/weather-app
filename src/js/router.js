@@ -5,7 +5,7 @@ export const startRouterWatch = routes => {
 	window.onload = () => {
 		initializeLocalStorageData();
 		themeObserver.trigger();
-		
+
 		window.location.hash = '#home';
 		locationChangeHandler(routes);
 	};

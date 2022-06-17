@@ -13,5 +13,3 @@ startRouterWatch({
 	'#settings': settingsPage,
 	404: errorPage,
 });
-
-

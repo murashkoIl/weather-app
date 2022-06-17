@@ -1,21 +1,21 @@
 export const createBlock = (el, className = '') => {
-  const block = document.createElement(el);
-  block.className = className;
-  return block;
+	const block = document.createElement(el);
+	block.className = className;
+	return block;
 };
 
-export const getElementBySelector = (selector) => {
-  return document.querySelector(selector);
+export const getElementBySelector = selector => {
+	return document.querySelector(selector);
 };
 
-export const addHtmlToDom = (func) => {
+export const addHtmlToDom = func => {
 	getElementBySelector('#content').innerHTML = func;
 };
 
-export const appendHtmlElement = (html) => {
-  getElementBySelector('#content').appendChild(html);
-}
+export const appendHtmlElement = html => {
+	getElementBySelector('#content').appendChild(html);
+};
 
 export const clearPage = () => {
-  getElementBySelector('#content').innerHTML = '';
-}
+	getElementBySelector('#content').innerHTML = '';
+};

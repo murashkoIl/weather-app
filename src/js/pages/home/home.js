@@ -1,10 +1,13 @@
 import { homePageTemplate } from '../../../templates/home.template';
-import { createBlock, getElementBySelector, clearPage } from '../../../helpers/dom';
-import { renderHandler} from '../../../helpers/render';
+import {
+	createBlock,
+	getElementBySelector,
+	clearPage,
+} from '../../../helpers/dom';
+import { renderHandler } from '../../../helpers/render';
 import { getLocalStorageData } from '../../../helpers/localstorage';
 import { emitter } from '../../../helpers/emitter';
 import { hideLoader, displayLoader } from '../loader';
-
 
 export const renderHomePage = data => {
 	const getDayName = dayIndex => {
@@ -15,7 +18,7 @@ export const renderHomePage = data => {
 			'Wednesday',
 			'Thursday',
 			'Friday',
-			'Saturday'
+			'Saturday',
 		];
 		return [...days, ...days][dayIndex];
 	};
@@ -26,24 +29,23 @@ export const renderHomePage = data => {
 };
 
 export const constructHomePage = () => {
-	
 	const hash = window.location.hash.split('/')[1];
 	const homeHtmlObject = createBlock('div', 'home-wrapper');
-	
+
 	if (!hash) {
-		const unsbuscribe = emitter.subscribe('receiveCurrentCity', (data) => {
+		const unsbuscribe = emitter.subscribe('receiveCurrentCity', data => {
 			homeHtmlObject.innerHTML = renderHandler(renderHomePage, data);
 			unsbuscribe();
-		})
-		emitter.emit('getCurrentCity', { city: 'auto:ip' })
+		});
+		emitter.emit('getCurrentCity', { city: 'auto:ip' });
 
 		return homeHtmlObject;
 	} else {
-		const unsbuscribe = emitter.subscribe('receiveCurrentCity', (data) => {
+		const unsbuscribe = emitter.subscribe('receiveCurrentCity', data => {
 			homeHtmlObject.innerHTML = renderHandler(renderHomePage, data);
 			checkingHomePageRendering();
 			unsbuscribe();
-		})
+		});
 		emitter.emit('getCurrentCity', { city: hash });
 
 		return homeHtmlObject;
@@ -67,6 +69,6 @@ export const checkingHomePageRendering = () => {
 		returnButton.style.display = 'block';
 		returnButton.addEventListener('click', () => {
 			document.location.assign('#saved');
-		})
+		});
 	}
-}
+};

@@ -1,7 +1,10 @@
-import { fetchTemperature, fetchWindSpeed } from '../js/pages/settings/settings';
+import {
+	fetchTemperature,
+	fetchWindSpeed,
+} from '../js/pages/settings/settings';
 
 export const settingsPageTemplate = (storage, data) => {
-  return `
+	return `
     <header class="header">
     <div class="container">
         <div class="settings-page">
@@ -65,4 +68,4 @@ export const settingsPageTemplate = (storage, data) => {
     </div>
   </section>
   `;
-}
+};

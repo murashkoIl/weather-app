@@ -1,5 +1,5 @@
 export const customNotificationTemplate = err => {
-  return `
+	return `
     <div class="error-wrapper">
       <article class="error">
         <span><i class="fas fa-exclamation-circle"></i></span>
@@ -10,13 +10,13 @@ export const customNotificationTemplate = err => {
       </article>
     </div>
   `;
-}
+};
 
 export const errorPageTemplate = () => {
-  return `
+	return `
     <div class="error-container">
       <h1 class="error-404">404</h1>
       <div class="error-message">Something Went Wrong...</div>
     </div>
 `;
-}
+};
