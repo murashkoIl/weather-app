@@ -73,3 +73,8 @@
 .choice-theme {
   cursor: pointer;
 }
+
+.weather__info-wind-wrapper {
+  display: flex;
+  flex-direction: row;
+}

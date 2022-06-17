@@ -23,9 +23,9 @@ export const savedPageTemplate = func => {
               <div class="input-wrapper">
                   <a class="input-search-icon"><i class="fa-solid fa-magnifying-glass"></i></a>
                   <input class="input-search" type="text" placeholder="Search">
-                  
               </div>
           </form>
+          <div class="found-cities-wrapper"></div>
       </div>
     </header>
     <section class="saved-cities">

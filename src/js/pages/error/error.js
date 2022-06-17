@@ -39,5 +39,6 @@ export const constructErrorPage = () => {
 };
 
 export const errorPage = () => {
+	getElementBySelector('#content').innerHTML = '';
   getElementBySelector('#content').appendChild(constructErrorPage());
 };

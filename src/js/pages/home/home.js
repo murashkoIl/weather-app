@@ -1,9 +1,10 @@
 import { homePageTemplate } from '../../../templates/home.template';
-import { createBlock, getElementBySelector } from '../../../helpers/dom';
+import { createBlock, getElementBySelector, clearPage } from '../../../helpers/dom';
 import { renderHandler} from '../../../helpers/render';
 import { getLocalStorageData } from '../../../helpers/localstorage';
 import { emitter } from '../../../helpers/emitter';
-import { renderLoader } from '../loader';
+import { hideLoader, displayLoader } from '../loader';
+
 
 export const renderHomePage = data => {
 	const getDayName = dayIndex => {
@@ -25,30 +26,42 @@ export const renderHomePage = data => {
 };
 
 export const constructHomePage = () => {
+	
 	const hash = window.location.hash.split('/')[1];
-	const htmlObject = createBlock('div', 'loader-wrapper');
-	htmlObject.innerHTML = renderHandler(renderLoader);
-
+	const homeHtmlObject = createBlock('div', 'home-wrapper');
+	
 	if (!hash) {
-		emitter.emit('getCurrentCity', { city: 'auto:ip', method: renderHomePage});
-		window.scrollTo(0, 0);
+		const unsbuscribe = emitter.subscribe('receiveCurrentCity', (data) => {
+			homeHtmlObject.innerHTML = renderHandler(renderHomePage, data);
+			unsbuscribe();
+		})
+		emitter.emit('getCurrentCity', { city: 'auto:ip' })
 
-		return htmlObject;
+		return homeHtmlObject;
 	} else {
-		emitter.emit('getCurrentCity', { city: hash, method: renderHomePage});
-		window.scrollTo(0, 0);
+		const unsbuscribe = emitter.subscribe('receiveCurrentCity', (data) => {
+			homeHtmlObject.innerHTML = renderHandler(renderHomePage, data);
+			checkingHomePageRendering();
+			unsbuscribe();
+		})
+		emitter.emit('getCurrentCity', { city: hash });
 
-		return htmlObject;
+		return homeHtmlObject;
 	}
 };
 
-
 export const homePage = () => {
-  getElementBySelector('#content').appendChild(constructHomePage());
+	displayLoader();
+	clearPage();
+
+	getElementBySelector('#content').appendChild(constructHomePage());
+	window.scrollTo(0, 0);
+
+	hideLoader();
 };
 
 export const checkingHomePageRendering = () => {
-	if (getElementBySelector('.header-return') && window.location.hash.split('/')[1]) {
+	if (window.location.hash.includes('/')) {
 		const returnButton = getElementBySelector('.header-return');
 
 		returnButton.style.display = 'block';

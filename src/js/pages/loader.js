@@ -8,8 +8,12 @@ export const renderLoader = () => {
 	`
 }
 
-export const checkingLoaderPresence = () => {
-	if (getElementBySelector('.loader-wrapper')) {
-		getElementBySelector('.loader-wrapper').style.display = 'none';
+export const hideLoader = () => {
+	if (getElementBySelector('.wrapper')) {
+		getElementBySelector('.loader').style.display = 'none';
 	}
+}
+
+export const displayLoader = () => {
+  getElementBySelector('.loader').style.display = 'flex';
 }

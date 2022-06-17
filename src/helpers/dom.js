@@ -15,3 +15,7 @@ export const addHtmlToDom = (func) => {
 export const appendHtmlElement = (html) => {
   getElementBySelector('#content').appendChild(html);
 }
+
+export const clearPage = () => {
+  getElementBySelector('#content').innerHTML = '';
+}

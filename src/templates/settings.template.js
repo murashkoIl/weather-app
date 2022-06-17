@@ -32,8 +32,7 @@ export const settingsPageTemplate = (storage, data) => {
 										}mBar</div>
                 </div>
                 <div class="weather__info-wind-wrapper">
-                    <div class="weather__info-wind-icon"><i class="fa-solid fa-wind"></i></div>
-                    <div class="weather__info-wind-wrapper">${fetchWindSpeed()}</div>
+                    ${fetchWindSpeed()}
                 </div>
             </div>
 

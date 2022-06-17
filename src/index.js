@@ -11,5 +11,7 @@ startRouterWatch({
 	'#home': homePage,
 	'#saved': savedPage,
 	'#settings': settingsPage,
-	404: errorPage
+	404: errorPage,
 });
+
+

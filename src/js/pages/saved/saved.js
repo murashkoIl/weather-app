@@ -5,14 +5,14 @@ import {
 	removeCitiesIfRendered,
 	renderSavedPage,
 	cityHandler,
-	saveCity
+	saveCity,
+	renderSavedCities
 } from './savedRenders';
 
 import { createBlock, getElementBySelector } from '../../../helpers/dom';
 import { renderHandler } from '../../../helpers/render';
 import { getLocalStorageData } from '../../../helpers/localstorage';
-import { emitter } from '../../../helpers/emitter';
-import { renderLoader } from '../loader';
+import { emitter } from '../../../helpers/emitter'
 
 export const toFocusInput = () => {
 	getElementBySelector('.input-search').focus();
@@ -21,20 +21,24 @@ export const toFocusInput = () => {
 export const constructSavedPage = () => {
 	const wrapper = getElementBySelector('.wrapper');
 
-	const htmlObject = createBlock('div', 'saved-page');
-	htmlObject.innerHTML = renderHandler(renderSavedPage);
-	window.scrollTo(0, 0);
+	const savedHtmlObject = createBlock('div', 'saved-page');
+	const unsbuscribe = emitter.subscribe('receiveCurrentCity', (data) => {
+		savedHtmlObject.innerHTML = renderHandler(renderSavedPage, data);
 
-	wrapper.addEventListener('click', handleWrapperListener);
+		addOnInputListener();
+		wrapper.addEventListener('click', handleWrapperListener);
+		unsbuscribe();
+	})
+	emitter.emit('getCurrentCity', { city: 'auto:ip' })
 
-	return htmlObject;
+	return savedHtmlObject;
 };
 
 export const savedPage = () => {
 	const content = getElementBySelector('#content');
 	content.innerHTML = '';
 	content.appendChild(constructSavedPage());
-	addOnInputListener();
+	window.scrollTo(0, 0);
 }
 
 export const addOnInputListener = () => {
@@ -50,7 +54,11 @@ export const searchHandler = (input) => {
 	removeCitiesIfRendered();
 
 	if (input.value.length > 2) {
-		emitter.emit('getCities', { city: input.value });
+		const unsbuscribe = emitter.subscribe('receiveCities', (data) => {
+			handleCityClick(data);
+			unsbuscribe();
+		})
+		emitter.emit('getCities', { city: input.value })
 	}
 };
 
@@ -67,7 +75,9 @@ export const handleWrapperListener = event => {
 	}
 	if (event.target.classList.contains('city-delete')) {
 		cityHandler(event.target.dataset.id, deleteCity);
-		savedPage();
+
+		const savedCitiesWrapper = getElementBySelector('.saved-cities-wrapper');
+		rerenderSavedCities(savedCitiesWrapper, renderSavedCities());
 	}
 	if (event.target.closest('.city-found')) {
 		foundCityClickingHandler(event);
@@ -79,17 +89,29 @@ export const handleWrapperListener = event => {
 
 export const foundCityClickingHandler = event => {
 	const targetCityName = event.target.closest('.city-found').dataset.name;
-
 	if (cityAlreadyAddedValidation(targetCityName)) return;
 
-	const htmlObject = createBlock('div', 'loader-wrapper');
-	htmlObject.innerHTML = renderHandler(renderLoader);
+	const unsbuscribe = emitter.subscribe('receiveCurrentCity', (data) => {
 
-	emitter.emit('getCurrentCity', { city: targetCityName, method: renderSavedPage});
+		checkingSavedPageRendering(data);
+		const savedCitiesWrapper = getElementBySelector('.saved-cities-wrapper');
+		rerenderSavedCities(savedCitiesWrapper, renderSavedCities());
+		removeCitiesIfRendered();
+		clearInputValue();
+		unsbuscribe();
+	})
+	emitter.emit('getCurrentCity', { city: targetCityName });
 	window.scrollTo(0, 0);
-
-	return htmlObject;
 };
+
+const rerenderSavedCities = (wrapper, cities) => {
+	wrapper.innerHTML = '';
+	wrapper.innerHTML = cities;
+}
+
+const clearInputValue = () => {
+	getElementBySelector('.input-search').value = '';
+}
 
 export const checkingSavedPageRendering = (data) => {
 	if (window.location.hash.includes('#saved')) {
