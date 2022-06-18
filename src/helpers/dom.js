@@ -19,3 +19,7 @@ export const appendHtmlElement = html => {
 export const clearPage = () => {
 	getElementBySelector('#content').innerHTML = '';
 };
+
+export const clearInputValue = () => {
+	getElementBySelector('.input-search').value = '';
+};

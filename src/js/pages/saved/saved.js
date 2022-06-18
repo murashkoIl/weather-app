@@ -9,10 +9,11 @@ import {
 	renderSavedCities,
 } from './savedRenders';
 
-import { createBlock, getElementBySelector } from '../../../helpers/dom';
+import { clearPage, createBlock, getElementBySelector, clearInputValue } from '../../../helpers/dom';
 import { renderHandler } from '../../../helpers/render';
 import { getLocalStorageData } from '../../../helpers/localstorage';
 import { emitter } from '../../../helpers/emitter';
+import { displayLoader, hideLoader } from '../loader';
 
 export const toFocusInput = () => {
 	getElementBySelector('.input-search').focus();
@@ -27,6 +28,8 @@ export const constructSavedPage = () => {
 
 		addOnInputListener();
 		wrapper.addEventListener('click', handleWrapperListener);
+
+		hideLoader();
 		unsbuscribe();
 	});
 	emitter.emit('getCurrentCity', { city: 'auto:ip' });
@@ -35,9 +38,9 @@ export const constructSavedPage = () => {
 };
 
 export const savedPage = () => {
-	const content = getElementBySelector('#content');
-	content.innerHTML = '';
-	content.appendChild(constructSavedPage());
+	clearPage();
+	displayLoader();
+	getElementBySelector('#content').appendChild(constructSavedPage());
 	window.scrollTo(0, 0);
 };
 
@@ -56,7 +59,8 @@ export const searchHandler = input => {
 	if (input.value.length > 2) {
 		const unsbuscribe = emitter.subscribe('receiveCities', data => {
 			handleCityClick(data);
-			unsbuscribe();
+			console.log(data);
+			unsbuscribe();	
 		});
 		emitter.emit('getCities', { city: input.value });
 	}
@@ -106,10 +110,6 @@ export const foundCityClickingHandler = event => {
 const rerenderSavedCities = (wrapper, cities) => {
 	wrapper.innerHTML = '';
 	wrapper.innerHTML = cities;
-};
-
-const clearInputValue = () => {
-	getElementBySelector('.input-search').value = '';
 };
 
 export const checkingSavedPageRendering = data => {

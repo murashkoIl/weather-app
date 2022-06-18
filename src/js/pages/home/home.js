@@ -35,6 +35,8 @@ export const constructHomePage = () => {
 	if (!hash) {
 		const unsbuscribe = emitter.subscribe('receiveCurrentCity', data => {
 			homeHtmlObject.innerHTML = renderHandler(renderHomePage, data);
+
+			hideLoader();
 			unsbuscribe();
 		});
 		emitter.emit('getCurrentCity', { city: 'auto:ip' });
@@ -43,7 +45,9 @@ export const constructHomePage = () => {
 	} else {
 		const unsbuscribe = emitter.subscribe('receiveCurrentCity', data => {
 			homeHtmlObject.innerHTML = renderHandler(renderHomePage, data);
+			
 			checkingHomePageRendering();
+			hideLoader();
 			unsbuscribe();
 		});
 		emitter.emit('getCurrentCity', { city: hash });
@@ -55,11 +59,8 @@ export const constructHomePage = () => {
 export const homePage = () => {
 	displayLoader();
 	clearPage();
-
 	getElementBySelector('#content').appendChild(constructHomePage());
 	window.scrollTo(0, 0);
-
-	hideLoader();
 };
 
 export const checkingHomePageRendering = () => {

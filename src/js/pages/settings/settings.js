@@ -23,6 +23,8 @@ export const constructSettingsPage = () => {
 
 	const unsbuscribe = emitter.subscribe('receiveCurrentCity', data => {
 		settingsHtmlObject.innerHTML = renderHandler(renderSettingsPage, data);
+
+		hideLoader();
 		unsbuscribe();
 	});
 	emitter.emit('getCurrentCity', { city: 'auto:ip' });
@@ -31,14 +33,13 @@ export const constructSettingsPage = () => {
 };
 
 export const settingsPage = () => {
-	displayLoader();
 	clearPage();
+	displayLoader();
 
 	getElementBySelector('#content').appendChild(constructSettingsPage());
 	window.scrollTo(0, 0);
 
 	checkingSettingsPageRendering();
-	hideLoader();
 };
 
 export const settingsHandler = event => {
