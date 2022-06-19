@@ -45,7 +45,7 @@ export const getFoundCitiesWrapper = () => {
 };
 
 export const getCityTemperatureWrapper = () => {
-	return getElementBySelector('.found-cities-wrapper');
+	return getElementBySelector('.city-temperature-wrapper');
 };
 
 export const getWeatherInfoWindWrapper = () => {
