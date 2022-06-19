@@ -1,3 +1,5 @@
+import { getContent, getInputSearch } from './selectors';
+
 export const createBlock = (el, className = '') => {
 	const block = document.createElement(el);
 	block.className = className;
@@ -8,18 +10,14 @@ export const getElementBySelector = selector => {
 	return document.querySelector(selector);
 };
 
-export const addHtmlToDom = func => {
-	getElementBySelector('#content').innerHTML = func;
-};
-
 export const appendHtmlElement = html => {
-	getElementBySelector('#content').appendChild(html);
+	getContent().appendChild(html);
 };
 
 export const clearPage = () => {
-	getElementBySelector('#content').innerHTML = '';
+	getContent().innerHTML = '';
 };
 
 export const clearInputValue = () => {
-	getElementBySelector('.input-search').value = '';
+	getInputSearch().value = '';
 };

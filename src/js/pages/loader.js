@@ -1,4 +1,4 @@
-import { getElementBySelector } from '../../helpers/dom';
+import { getLoader, getWrapper } from '../../helpers/selectors';
 
 export const renderLoader = () => {
 	return `
@@ -9,11 +9,11 @@ export const renderLoader = () => {
 };
 
 export const hideLoader = () => {
-	if (getElementBySelector('.wrapper')) {
-		getElementBySelector('.loader').style.display = 'none';
+	if (getWrapper()) {
+		getLoader().style.display = 'none';
 	}
 };
 
 export const displayLoader = () => {
-	getElementBySelector('.loader').style.display = 'flex';
+	getLoader().style.display = 'flex';
 };

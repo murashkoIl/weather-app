@@ -2,8 +2,13 @@ import {
 	customNotificationTemplate,
 	errorPageTemplate,
 } from '../../../templates/error.template';
-import { createBlock, getElementBySelector } from '../../../helpers/dom';
+import { clearPage, createBlock } from '../../../helpers/dom';
 import { renderHandler } from '../../../helpers/render';
+import {
+	getContent,
+	getErrorClose,
+	getErrorWrapper,
+} from '../../../helpers/selectors';
 
 export const renderErrorPage = () => {
 	return errorPageTemplate();
@@ -14,16 +19,13 @@ export const renderCustomNotification = err => {
 
 	const div = createBlock('div');
 	div.innerHTML = html;
-	getElementBySelector('#content').appendChild(div);
+	getContent().appendChild(div);
 
 	setTimeout(() => {
-		getElementBySelector('.error-wrapper').classList.add('show');
+		getErrorWrapper().classList.add('show');
 	}, 300);
 
-	getElementBySelector('.error-close').addEventListener(
-		'click',
-		removeCustomNotification
-	);
+	getErrorClose().addEventListener('click', removeCustomNotification);
 };
 
 export const customNotification = err => {
@@ -42,6 +44,6 @@ export const constructErrorPage = () => {
 };
 
 export const errorPage = () => {
-	getElementBySelector('#content').innerHTML = '';
-	getElementBySelector('#content').appendChild(constructErrorPage());
+	clearPage();
+	getContent().appendChild(constructErrorPage());
 };

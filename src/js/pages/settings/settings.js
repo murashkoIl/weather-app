@@ -1,4 +1,4 @@
-import { getElementBySelector, clearPage } from '../../../helpers/dom';
+import { clearPage } from '../../../helpers/dom';
 import {
 	saveLocalStorageData,
 	getLocalStorageData,
@@ -9,6 +9,13 @@ import { Observer } from '../../../helpers/observer';
 import { createBlock } from '../../../helpers/dom';
 import { emitter } from '../../../helpers/emitter';
 import { hideLoader, displayLoader } from '../loader';
+import {
+	getCityTemperatureWrapper,
+	getContent,
+	getSettingsWrapper,
+	getWeatherInfoWindWrapper,
+	getWrapper,
+} from '../../../helpers/selectors';
 
 export const settingsObserver = new Observer();
 export const themeObserver = new Observer();
@@ -36,7 +43,7 @@ export const settingsPage = () => {
 	clearPage();
 	displayLoader();
 
-	getElementBySelector('#content').appendChild(constructSettingsPage());
+	getContent().appendChild(constructSettingsPage());
 	window.scrollTo(0, 0);
 
 	checkingSettingsPageRendering();
@@ -81,7 +88,7 @@ export const renderTemperature = data => {
 
 export const fetchTemperature = () => {
 	const unsbuscribe = emitter.subscribe('receiveCurrentCity', data => {
-		getElementBySelector('.city-temperature-wrapper').innerHTML = renderHandler(
+		getCityTemperatureWrapper().innerHTML = renderHandler(
 			renderTemperature,
 			data
 		);
@@ -92,8 +99,10 @@ export const fetchTemperature = () => {
 
 export const fetchWindSpeed = () => {
 	const unsbuscribe = emitter.subscribe('receiveCurrentCity', data => {
-		getElementBySelector('.weather__info-wind-wrapper').innerHTML =
-			renderHandler(renderWindSpeed, data);
+		getWeatherInfoWindWrapper().innerHTML = renderHandler(
+			renderWindSpeed,
+			data
+		);
 		unsbuscribe();
 	});
 	emitter.emit('getCurrentCity', { city: 'auto:ip' });
@@ -102,8 +111,8 @@ export const fetchWindSpeed = () => {
 const themeHandler = () => {
 	const storage = getLocalStorageData();
 	!storage.isDarkTheme
-		? getElementBySelector('.wrapper').classList.add('light')
-		: getElementBySelector('.wrapper').classList.remove('light');
+		? getWrapper().classList.add('light')
+		: getWrapper().classList.remove('light');
 };
 
 const choiceWindHandler = (event, storage) => {
@@ -137,11 +146,8 @@ const choiceTemperatureHandler = (event, storage) => {
 };
 
 export const checkingSettingsPageRendering = () => {
-	if (getElementBySelector('.settings-wrapper')) {
-		getElementBySelector('.settings-wrapper').addEventListener(
-			'click',
-			settingsHandler
-		);
+	if (getSettingsWrapper()) {
+		getSettingsWrapper().addEventListener('click', settingsHandler);
 	}
 };
 

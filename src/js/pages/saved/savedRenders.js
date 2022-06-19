@@ -1,6 +1,5 @@
 import { getCurrentWeather, BASE_URL } from '../../weather';
 import { renderCustomNotification } from '../error/error';
-import { getElementBySelector } from '../../../helpers/dom';
 import { renderHandler } from '../../../helpers/render';
 import {
 	getLocalStorageData,
@@ -11,6 +10,7 @@ import {
 	savedCitiesTemplate,
 	savedPageTemplate,
 } from '../../../templates/saved.template';
+import { getFoundCitiesWrapper } from '../../../helpers/selectors';
 
 export const cityHandler = (arg, func) => {
 	const storage = getLocalStorageData();
@@ -31,7 +31,7 @@ export const renderFoundCities = data => {
 };
 
 export const removeCitiesIfRendered = () => {
-	const citiesWrapper = getElementBySelector('.found-cities-wrapper');
+	const citiesWrapper = getFoundCitiesWrapper();
 	if (citiesWrapper) {
 		citiesWrapper.remove();
 	}

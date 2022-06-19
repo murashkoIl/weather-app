@@ -1,13 +1,10 @@
 import { homePageTemplate } from '../../../templates/home.template';
-import {
-	createBlock,
-	getElementBySelector,
-	clearPage,
-} from '../../../helpers/dom';
+import { createBlock, clearPage } from '../../../helpers/dom';
 import { renderHandler } from '../../../helpers/render';
 import { getLocalStorageData } from '../../../helpers/localstorage';
 import { emitter } from '../../../helpers/emitter';
 import { hideLoader, displayLoader } from '../loader';
+import { getContent, getHeaderReturn } from '../../../helpers/selectors';
 
 export const renderHomePage = data => {
 	const getDayName = dayIndex => {
@@ -45,7 +42,7 @@ export const constructHomePage = () => {
 	} else {
 		const unsbuscribe = emitter.subscribe('receiveCurrentCity', data => {
 			homeHtmlObject.innerHTML = renderHandler(renderHomePage, data);
-			
+
 			checkingHomePageRendering();
 			hideLoader();
 			unsbuscribe();
@@ -59,13 +56,13 @@ export const constructHomePage = () => {
 export const homePage = () => {
 	displayLoader();
 	clearPage();
-	getElementBySelector('#content').appendChild(constructHomePage());
+	getContent().appendChild(constructHomePage());
 	window.scrollTo(0, 0);
 };
 
 export const checkingHomePageRendering = () => {
 	if (window.location.hash.includes('/')) {
-		const returnButton = getElementBySelector('.header-return');
+		const returnButton = getHeaderReturn();
 
 		returnButton.style.display = 'block';
 		returnButton.addEventListener('click', () => {

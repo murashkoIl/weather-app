@@ -9,18 +9,32 @@ import {
 	renderSavedCities,
 } from './savedRenders';
 
-import { clearPage, createBlock, getElementBySelector, clearInputValue } from '../../../helpers/dom';
+import {
+	clearPage,
+	createBlock,
+	getElementBySelector,
+	clearInputValue,
+} from '../../../helpers/dom';
 import { renderHandler } from '../../../helpers/render';
 import { getLocalStorageData } from '../../../helpers/localstorage';
 import { emitter } from '../../../helpers/emitter';
 import { displayLoader, hideLoader } from '../loader';
+import {
+	getCityFound,
+	getContent,
+	getInputSearch,
+	getSavedCitiesWrapper,
+	getSearch,
+	getSearchForm,
+	getWrapper,
+} from '../../../helpers/selectors';
 
 export const toFocusInput = () => {
-	getElementBySelector('.input-search').focus();
+	getInputSearch().focus();
 };
 
 export const constructSavedPage = () => {
-	const wrapper = getElementBySelector('.wrapper');
+	const wrapper = getWrapper();
 
 	const savedHtmlObject = createBlock('div', 'saved-page');
 	const unsbuscribe = emitter.subscribe('receiveCurrentCity', data => {
@@ -40,13 +54,13 @@ export const constructSavedPage = () => {
 export const savedPage = () => {
 	clearPage();
 	displayLoader();
-	getElementBySelector('#content').appendChild(constructSavedPage());
+	getContent().appendChild(constructSavedPage());
 	window.scrollTo(0, 0);
 };
 
 export const addOnInputListener = () => {
-	if (getElementBySelector('.input-search')) {
-		const inputSearch = getElementBySelector('.input-search');
+	if (getInputSearch()) {
+		const inputSearch = getInputSearch();
 		inputSearch.oninput = () => {
 			searchHandler(inputSearch);
 		};
@@ -60,7 +74,7 @@ export const searchHandler = input => {
 		const unsbuscribe = emitter.subscribe('receiveCities', data => {
 			handleCityClick(data);
 			console.log(data);
-			unsbuscribe();	
+			unsbuscribe();
 		});
 		emitter.emit('getCities', { city: input.value });
 	}
@@ -97,7 +111,7 @@ export const foundCityClickingHandler = event => {
 
 	const unsbuscribe = emitter.subscribe('receiveCurrentCity', data => {
 		checkingSavedPageRendering(data);
-		const savedCitiesWrapper = getElementBySelector('.saved-cities-wrapper');
+		const savedCitiesWrapper = getSavedCitiesWrapper();
 		rerenderSavedCities(savedCitiesWrapper, renderSavedCities());
 		removeCitiesIfRendered();
 		clearInputValue();
@@ -133,7 +147,7 @@ export const handleCityClick = data => {
 	const html = renderHandler(renderFoundCities, data);
 	const div = createBlock('div', 'found-cities-wrapper');
 	div.innerHTML = html;
-	getElementBySelector('.search-form').append(div);
+	getSearchForm().append(div);
 
 	const saved = [],
 		received = [];
@@ -145,11 +159,8 @@ export const handleCityClick = data => {
 	});
 
 	saved.forEach(str => {
-		if (
-			received.includes(str) &&
-			getElementBySelector('.city-found').dataset.name === str
-		) {
-			getElementBySelector('.search').style.color = '#ed2bdac2';
+		if (received.includes(str) && getCityFound().dataset.name === str) {
+			getSearch().style.color = '#ed2bdac2';
 		}
 	});
 };

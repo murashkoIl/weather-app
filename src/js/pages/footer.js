@@ -1,10 +1,10 @@
-import { getElementBySelector } from '../../helpers/dom';
+import { getActive, getFooterContainer } from '../../helpers/selectors';
 
-const link = getElementBySelector('.footer-container');
+const link = getFooterContainer();
 
 const toggleActiveClass = event => {
 	if (event.target.closest('.footer-item')) {
-		const activeLink = getElementBySelector('.active');
+		const activeLink = getActive();
 		activeLink.classList.remove('active');
 		event.target.classList.add('active');
 	}
