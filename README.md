@@ -56,6 +56,62 @@ Settings page represent:
 
 ## Folder structure
 
-// Will be updated
-// Code refactoring needed
+.
+├── .husky
+├── dist
+├── node_modules
+├── public
+    ├── index.html
+├── src
+    ├── helpers
+        ├── dom.js
+        ├── emitter.js
+        ├── localstorage.js
+        ├── observer.js
+        ├── render.js
+        ├── selectors.js
+    ├── js
+        ├── pages
+            ├── error
+                ├── error.js
+            ├── home
+                ├── home.js
+            ├── saved
+                ├── saved.js
+                ├── savedRenders.js
+            ├── settings
+                ├── settings.js
+        ├── dataManager.js
+        ├── router.js
+        ├── weather.js
+    ├── styles
+        ├── pages
+            ├── footer.scss
+            ├── home.scss
+            ├── saved.scss
+            ├── settings.scss
+        ├── error.scss
+        ├── index.scss
+        ├── styles.scss
+        ├── theme.scss
+    ├── templates
+        ├── error.template.js
+        ├── home.tempalate.js
+        ├── saved.template.js
+        ├── settings.template.js
+    ├── index.js
+├── tests
+    ├──
+
+
+
+├── .babelrc
+├── .eslintignore
+├── .eslint.json
+├── .gitignore
+├── .prettierrc
+├── package-lock.json
+├── package.json
+├── README.md
+├── webpack.config.js
 

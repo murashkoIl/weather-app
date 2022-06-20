@@ -37,7 +37,7 @@ export const constructHomePage = () => {
 			unsbuscribe();
 		});
 		emitter.emit('getCurrentCity', { city: 'auto:ip' });
-
+		
 		return homeHtmlObject;
 	} else {
 		const unsbuscribe = emitter.subscribe('receiveCurrentCity', data => {

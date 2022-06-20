@@ -165,7 +165,7 @@ export const handleCityClick = data => {
 	});
 };
 
-const cityAlreadyAddedValidation = city => {
+export const cityAlreadyAddedValidation = city => {
 	let isCityAdded = false;
 
 	getLocalStorageData().cards.forEach(card => {
